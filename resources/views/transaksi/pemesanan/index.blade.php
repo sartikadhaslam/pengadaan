@@ -4,12 +4,12 @@
 <div class="">
     <div class="documentation-container">
         <div class="docs-sidebar">
-            @include('layouts.sidebar')  
+            @include('layouts.sidebar')   
         </div>
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 class="link-heading">Master Principle</h1>
+                <h1 class="link-heading">Pemesanan Oleh Customer</h1>
                 <hr/>
                 @if (session()->has('message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -18,34 +18,36 @@
                     </div>
                 @endif
                 <div class="pb-3">
-                    <a href="{{url('/master-principle/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
+                    <a href="{{url('/pemesanan/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Nama Principle</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">No Telepon</th>
-                            <th scope="col">Nama PIC</th>
+                            <th scope="col">No Pemesanan</th>
+                            <th scope="col">Tanggal Pemesanan</th>
+                            <th scope="col">Nama Customer</th>
+                            <th scope="col">Ship To</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($getMasterPrinciple as $masterPrinciple)
+                        @foreach($datas as $data)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{$masterPrinciple->nama_principle}}</td>
-                            <td>{{$masterPrinciple->alamat}}</td>
-                            <td>{{$masterPrinciple->no_telp}}</td>
-                            <td>{{$masterPrinciple->nama_pic}}</td>
+                            <td>{{$data->no_pemesanan}}</td>
+                            <td>{{$data->tanggal_pemesanan}}</td>
+                            <td>{{$data->nama_customer}}</td>
+                            <td>{{$data->ship_to}}</td>
+                            <td>{{$data->status}}</td>
                             <td>
                                 <div class="row">
                                     <div class="d-inline">
-                                        <a class="btn btn-sm btn-success text-white" href="/master-principle/edit/{{ $masterPrinciple->id }}">Edit</a>
+                                        <a class="btn btn-sm btn-success text-white" href="/pemesanan/edit/{{ $data->id }}">Edit</a>
                                     </div>
                                     <div class="d-inline">
-                                        <form method="POST" action="/master-principle/delete/{{ $masterPrinciple->id }}" onsubmit="return validateForm()">
+                                        <form method="POST" action="/pemesanan/delete/{{ $data->id }}" onsubmit="return validateForm()">
                                             @csrf
                                             @method('DELETE')
                                             <input type="submit" class="btn btn-sm btn-danger" value="Hapus">

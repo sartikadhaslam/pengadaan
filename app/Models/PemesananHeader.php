@@ -12,12 +12,20 @@ class PemesananHeader extends Model
     protected $table = 'pemesanan_header';
 
     protected $fillable = [
-        'id_customer', 
-        'tanggal', 
-        'no_pemesanan',
-        'term_condition',
-        'nama_pic',
-        'jabatan_pic',
-        'status'
+        'no_pemesanan', 
+        'tanggal_pemesanan', 
+        'id_customer',
+        'nama_customer',
+        'alamat_customer',
+        'telepon_customer',
+        'fax_customer',
+        'ship_to',
+        'delivery_deadline',
+        'delivery_terms',
+        'payment_terms',
+        'remark',
+        'status',
+        'created_at',
+        'updated_at'
     ];
 }

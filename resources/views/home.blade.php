@@ -8,43 +8,7 @@
 
             <div class="docs-sidebar">
 
-                <div class="docs-content-area">
-
-                    <div class="docs-list">
-                        <h5>DASHBOARD</h5>
-
-                        <ul>
-                            <li><a href="./index.html" class="active">Dashboard</a></li>
-                        </ul>
-
-                        <h5>MASTER</h5>
-                    
-                        <ul>
-                            <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
-                            <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
-                            <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
-                        </ul>
-                        
-                        <h5>TRANSAKSI</h5>
-                        
-                        <ul>
-                            <li><a href="{{url('/pemesanan')}}">Pemesanan</a></li>
-                            <li><a href="{{url('/pembelian')}}">Pembelian</a></li>
-                            <li><a href="{{url('/penerimaan')}}">Penerimaan</a></li>
-                            <li><a href="{{url('/pengiriman')}}">Pengiriman</a></li>
-                        </ul>
-                        
-                        <h5>LAPORAN</h5>
-
-                        <ul>
-                            <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pemesanan</a></li>
-                            <li><a href="{{url('/master-pembelian')}}">Laporan Pembelian</a></li>
-                            <li><a href="{{url('/master-penerimaan')}}">Laporan Penerimaan</a></li>
-                            <li><a href="{{url('/master-pengiriman')}}">Laporan Pengiriman</a></li>
-                        </ul>
-                        
-                    </div>
-                </div>
+                @include('layouts.sidebar')  
                 
             </div>
 
