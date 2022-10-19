@@ -31,6 +31,7 @@ class PemesananController extends Controller
      */
     
     public function index(){
+
         $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
         $getPemesananHeader = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
                               ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
@@ -40,6 +41,7 @@ class PemesananController extends Controller
                               ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
                               ->where('status', '!=', 'Draft')
                               ->get();
+
         $no = 1;
         $role = Auth::user()->role;
 
@@ -217,7 +219,7 @@ class PemesananController extends Controller
         }else{
             return redirect('/pemesanan/edit/'. $id)->with('message', 'Data Pemesanan berhasil diajukan!');
         }
-        
+
     }
 
 
