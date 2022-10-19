@@ -7,6 +7,22 @@ use App\Models\MasterBarang;
 
 class MasterBarangController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    
     public function index(){
         $getMasterBarang = MasterBarang::getMasterBarang();
         $no = 1;
@@ -27,9 +43,10 @@ class MasterBarangController extends Controller
     public function store(Request $request)
     {
         $nama_barang = $request->nama_barang;
+        $unit = $request->unit;
         $harga = $request->harga;
 
-        $storeMasterBarang = MasterBarang::storeMasterBarang($nama_barang, $harga);
+        $storeMasterBarang = MasterBarang::storeMasterBarang($nama_barang, $unit, $harga);
 
         return redirect('/master-barang')->with('message', 'Data Barang berhasil disimpan!');
     }
@@ -50,9 +67,10 @@ class MasterBarangController extends Controller
     public function update(Request $request, $id)
     {
         $nama_barang = $request->nama_barang;
+        $unit = $request->unit;
         $harga = $request->harga;
 
-        $updateMasterBarang = MasterBarang::updateMasterBarang($id, $nama_barang, $harga);
+        $updateMasterBarang = MasterBarang::updateMasterBarang($id, $nama_barang, $unit, $harga);
 
         return redirect('/master-barang')->with('message', 'Data Barang berhasil diubah!');
     }

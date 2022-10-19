@@ -49,9 +49,12 @@ Route::delete('/master-principle/delete/{id}', 'App\Http\Controllers\MasterPrinc
 Route::get('/pemesanan', [App\Http\Controllers\PemesananController::class, 'index'])->name('pemesanan');
 Route::get('/pemesanan/add', 'App\Http\Controllers\PemesananController@add');
 Route::post('/pemesanan/store', 'App\Http\Controllers\PemesananController@store');
-Route::get('/pemesanan/edit/{id}', 'App\Http\Controllers\PemesananController@edit');
+Route::get('/pemesanan/edit/{id}', 'App\Http\Controllers\PemesananController@add_detail');
+Route::post('/pemesanan/store/{id}', 'App\Http\Controllers\PemesananController@store_detail');
 Route::put('/pemesanan/update/{id}', 'App\Http\Controllers\PemesananController@update');
+Route::put('/pemesanan/update/status/{id}', 'App\Http\Controllers\PemesananController@update_status');
 Route::delete('/pemesanan/delete/{id}', 'App\Http\Controllers\PemesananController@delete');
+Route::delete('/pemesanan/detail/delete/{id}', 'App\Http\Controllers\PemesananController@delete_detail');
 
 //Master Pembelian
 Route::get('/pembelian', [App\Http\Controllers\PembelianController::class, 'index'])->name('pembelian');

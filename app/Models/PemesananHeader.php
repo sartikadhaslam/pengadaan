@@ -12,12 +12,33 @@ class PemesananHeader extends Model
     protected $table = 'pemesanan_header';
 
     protected $fillable = [
-        'id_customer', 
-        'tanggal', 
-        'no_pemesanan',
-        'term_condition',
-        'nama_pic',
-        'jabatan_pic',
+        'no_pemesanan', 
+        'tanggal_pemesanan', 
+        'id_customer',
+        'alamat_customer',
+        'telepon_customer',
+        'fax_customer',
+        'ship_to',
+        'delivery_deadline',
+        'payment_terms',
+        'remark',
+        'file',
         'status'
+
     ];
+
+    public static function getPemesananHeader()
+    {
+        $getPemesananHeader = PemesananHeader::orderBy('created_at', 'asc')
+        ->get();
+
+        return $getPemesananHeader;
+    }
+
+    public static function delPemesananHeader($id)
+    {
+        $delPemesananHeaderbyId = PemesananHeader::destroy($id);
+
+        return $delPemesananHeaderbyId;
+    }
 }

@@ -17,8 +17,12 @@ class CreateMasterCustomerTable extends Migration
             $table->id();
             $table->text('nama_customer');
             $table->text('alamat');
+            $table->text('email');
             $table->string('no_telp', 13);
+            $table->string('fax', 13);
             $table->string('nama_pic', 35);
+            $table->string('jabatan_pic', 35);
+            $table->integer('payment_terms');
             $table->timestamps();
         });
     }

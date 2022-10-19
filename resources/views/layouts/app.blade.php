@@ -15,12 +15,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&family=Nunito:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{asset('assets/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{asset('assets/prism/prism.css')}}">
     <link rel="stylesheet" href="{{asset('assets/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/style-dark.css')}}">
-    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="{{asset('/js/custom.js')}}"></script>
+        <!-- CSS -->
 
     <!-- Styles -->
 </head>
@@ -33,7 +38,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu menu-show"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x menu-cancel"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </div>
-                <a class="navbar-brand" href="./index.html">PT. Unideby Kencana</a>
+                <a class="navbar-brand" href="./index.html">CACM</a>
             </div>
             
             <div class="nav-menu-container">
@@ -85,9 +90,6 @@
     </nav>
 
     @yield('content')
-
-    <script src="{{asset('assets/popperjs/popper.js')}}"></script>
-    <script src="{{asset('assets/bootstrap/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     <script src="{{asset('assets/prism/prism.js')}}"></script>
     <script src="{{asset('assets/clipboard.min.js')}}"></script>
@@ -95,6 +97,13 @@
     <script>
         function validateForm(){
             if (confirm("Yakin data akan dihapus?") == true) {
+            return true;
+            } else {
+            return false;
+            }
+        }
+        function validateFormAjukan(){
+            if (confirm("Yakin data akan diproses?") == true) {
             return true;
             } else {
             return false;

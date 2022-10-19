@@ -38,7 +38,7 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 class="link-heading">Master Customer</h1>
+                <h1 class="link-heading">Pemesanan oleh Customer</h1>
                 <hr/>
                 @if (session()->has('message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,40 +47,59 @@
                     </div>
                 @endif
                 <div class="pb-3">
-                    <a href="{{url('/master-customer/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
+                    <a href="{{url('/pemesanan/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Nama Customer</th>
-                            <th scope="col">No Telepon</th>
-                            <th scope="col">No Fax</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Payment Terms</th>
+                            <th scope="col">Kode Pemesanan</th>
+                            <th scope="col">Tanggal Pemesanan</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($getMasterCustomer as $masterCustomer)
+                        @foreach($pemesananHeader as $pemesananHeader)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{$masterCustomer->nama_customer}}</td>
-                            <td>{{$masterCustomer->no_telp}}</td>
-                            <td>{{$masterCustomer->fax}}</td>
-                            <td>{{$masterCustomer->email}}</td>
-                            <td>{{$masterCustomer->payment_terms}}</td>
+                            <td>{{$pemesananHeader->no_pemesanan}}</td>
+                            <td>{{$pemesananHeader->tanggal_pemesanan}}</td>
+                            <td>{{$pemesananHeader->customer}}</td>
+                            <td>{{$pemesananHeader->status}}</td>
                             <td>
+                            @if($pemesananHeader->status == 'Draft')
                                 <div class="row">
                                     <div class="d-inline">
-                                        <a class="btn btn-sm btn-success text-white" href="/master-customer/edit/{{ $masterCustomer->id }}">Edit</a>
+                                        <a class="btn btn-sm btn-success text-white" href="/pemesanan/edit/{{ $pemesananHeader->id }}">Edit</a>
                                     </div>
                                     <div class="d-inline">
-                                        <form method="POST" action="/master-customer/delete/{{ $masterCustomer->id }}" onsubmit="return validateForm()">
+                                        <form method="POST" action="/pemesanan/delete/{{ $pemesananHeader->id }}" onsubmit="return validateForm()">
                                             @csrf
                                             @method('DELETE')
                                             <input type="submit" class="btn btn-sm btn-danger" value="Hapus">
                                         </form>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="row">
+                                    <div class="d-inline">
+                                    @if($pemesananHeader->status != 'Draft')
+                                        <a class="btn btn-sm btn-secondary text-white" href="/pemesanan/edit/{{ $pemesananHeader->id }}">View</a>
+                                    @endif
+                                    </div>
+                                    <div class="d-inline">
+                                    @if($role != 'customer')
+                                    <form method="POST" action="/pemesanan/update/status/{{ $pemesananHeader->id }}" onsubmit="return validateFormAjukan()">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="text" name="status" id="status" value="approve" style="display:none;">
+                                        @if($pemesananHeader->status == 'Ajukan Baru')
+                                        <input type="submit" class="btn btn-sm btn-success" value="Approve">
+                                        @endif
+                                    </form>
+                                    @endif
                                     </div>
                                 </div>
                             </td>

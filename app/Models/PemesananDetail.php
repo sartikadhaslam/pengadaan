@@ -12,11 +12,20 @@ class PemesananDetail extends Model
     protected $table = 'pemesanan_detail';
 
     protected $fillable = [
-        'no_pemesanan', 
+        'id_pemesanan', 
         'id_barang', 
+        'nama_barang',
+        'unit',
         'qty',
-        'harga',
+        'unit_price',
         'total'
     ];
+
+    public static function delPemesananDetail($id)
+    {
+        $delPemesananDetailbyId = PemesananDetail::destroy($id);
+
+        return $delPemesananDetailbyId;
+    }
 
 }

@@ -48,6 +48,10 @@
                         <textarea class="form-control" id="nama_barang" name="nama_barang">{{ $getMasterBarangbyId->nama_barang }}</textarea>
                     </div>
                     <div class="mb-3">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit" value="{{ $getMasterBarangbyId->unit }}">
+                    </div>
+                    <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>
                         <input type="text" class="form-control" id="harga" name="harga" value="{{ $getMasterBarangbyId->harga }}">
                     </div>
