@@ -13,6 +13,7 @@ class MasterBarang extends Model
 
     protected $fillable = [
         'nama_barang', 
+        'unit',
         'harga', 
     ];
 
@@ -31,20 +32,22 @@ class MasterBarang extends Model
         return $getMasterBarangbyId;
     }
 
-    public static function storeMasterBarang($nama_barang, $harga)
+    public static function storeMasterBarang($nama_barang, $unit, $harga)
     {
         $storeMasterBarang = new MasterBarang();
         $storeMasterBarang->nama_barang = $nama_barang;
+        $storeMasterBarang->unit = $unit;
         $storeMasterBarang->harga = $harga;
         $storeMasterBarang->save();
 
         return $storeMasterBarang;
     }
 
-    public static function updateMasterBarang($id, $nama_barang, $harga)
+    public static function updateMasterBarang($id, $nama_barang, $unit, $harga)
     {
         $updateMasterBarang = MasterBarang::find($id);
         $updateMasterBarang->nama_barang = $nama_barang;
+        $updateMasterBarang->unit = $unit;
         $updateMasterBarang->harga = $harga;
         $updateMasterBarang->save();
 

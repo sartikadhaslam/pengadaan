@@ -4,49 +4,110 @@
 <div class="">
     <div class="documentation-container">
         <div class="docs-sidebar">
-            @include('layouts.sidebar')      
+            <div class="docs-content-area">
+                <div class="docs-list">
+                    <h5>DASHBOARD</h5>
+                    <ul>
+                        <li><a href="./index.html">Dashboard</a></li>
+                    </ul>
+                    <h5>MASTER</h5>
+                    <ul>
+                        <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
+                        <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
+                        <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
+                    </ul>
+                    
+                    <h5>TRANSAKSI</h5>
+                    
+                    <ul>
+                        <li><a href="{{url('/pemesanan')}}">Pemesanan oleh Customer</a></li>
+                        <li><a href="{{url('/pembelian')}}">Pembelian ke Principle</a></li>
+                        <li><a href="{{url('/penerimaan')}}">Penerimaan dari Principle</a></li>
+                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    </ul>
+                    
+                    <h5>LAPORAN</h5>
+
+                    <ul>
+                        <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
+                        <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
+                    </ul>
+                </div>
+            </div>      
         </div>
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Tambah Pemesanan Oleh Customer</h1>
+                <h1 id="getting-started" class="link-heading">Tambah Pemesanan</h1>
                 <hr/>
-                <form action="{{url('pemesanan/store')}}" method="post">
-                @csrf
-                    <div class="mb-3">
-                        <label for="customer" class="form-label">Customer</label>
-                        <select  class="form-control" id="customer" name="id_customer">
-                            @foreach($customer as $v)
-                            <option value="{{$v->id}}">{{$v->nama_customer}}</option>
+                @if ($errors->any())
+                    <div class="alert alert-success alert-dismissible mt-3" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
                             @endforeach
-                        </select>
+                        </ul>
                     </div>
-                    <div class="mb-3">
-                        <label for="fax_customer" class="form-label">Fax Customer</label>
-                        <input type="number" class="form-control" id="fax_customer" name="fax_customer">
+                @endif
+                <form action="{{url('pemesanan/store')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="no_pemesanan" class="form-label">Kode Pemesanan (AUTO)</label>
+                            <input type="text" class="form-control" id="no_pemesanan" name="no_pemesanan" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan</label>
+                            <input type="date" class="form-control" id="tanggal_pemesanan" name="tanggal_pemesanan" value="<?php echo date('Y-m-d'); ?>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_customer" class="form-label">Customer</label>
+                            <input type="text" class="form-control" id="id_customer" name="id_customer" value="{{$getMasterCustomer->id}}" style="display:none;">
+                            <input type="text" class="form-control" id="nama_customer" name="nama_customer" value="{{$getMasterCustomer->nama_customer}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat_customer" class="form-label">Alamat</label>
+                            <textarea class="form-control" id="alamat_customer" name="alamat_customer" value="{{$getMasterCustomer->alamat}}">{{$getMasterCustomer->alamat}}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telepon_customer" class="form-label">Telepon</label>
+                            <input type="text" class="form-control" id="telepon_customer" name="telepon_customer" value="{{$getMasterCustomer->no_telp}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fax_customer" class="form-label">Fax</label>
+                            <input type="text" class="form-control" id="fax_customer" name="fax_customer" value="{{$getMasterCustomer->fax}}">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="ship_to" class="form-label">Ship to</label>
-                        <textarea class="form-control" id="ship_to" name="ship_to"></textarea>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="ship_to" class="form-label">Ship To</label>
+                            <input type="text" class="form-control" id="ship_to" name="ship_to">
+                        </div>
+                        <div class="mb-3">
+                            <label for="delivery_deadline" class="form-label">Delivery Deadline</label>
+                            <input type="date" class="form-control" id="delivery_deadline" name="delivery_deadline">
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment_terms" class="form-label">Payment Terms</label>
+                            <input type="text" class="form-control" id="payment_terms" name="payment_terms" value="{{$getMasterCustomer->payment_terms}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="remark" class="form-label">Remark</label>
+                            <textarea class="form-control" id="remark" name="remark"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status (AUTO)</label>
+                            <input type="text" class="form-control" id="status" name="status" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="file" class="form-label">File</label><br>
+                            <input type="file" id="file" name="file" accept=".pdf,.png,.jpg,.jpeg">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="delivery_deadline" class="form-label">Delivery Deadline</label>
-                        <input type="date" class="form-control" id="delivery_deadline" name="delivery_deadline">
-                    </div>
-                    <div class="mb-3">
-                        <label for="delivery_terms" class="form-label">Delivery Terms</label>
-                        <input type="number" class="form-control" id="delivery_terms" name="delivery_terms">
-                    </div>
-                    <div class="mb-3">
-                        <label for="payment_terms" class="form-label">Payment Terms</label>
-                        <input type="number" class="form-control" id="payment_terms" name="payment_terms">
-                    </div>
-                    <div class="mb-3">
-                        <label for="remark" class="form-label">Remark</label>
-                        <textarea class="form-control" id="remark" name="remark"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                    <button type="cancel" class="btn btn-danger">Batal</button>
+                </div>
+                    <button type="submit" class="btn btn-success ml-0">Simpan</button>
+                    <a href="{{url('/pemesanan')}}" style="color:#ffffff;" type="cancel" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>    
         </div>  

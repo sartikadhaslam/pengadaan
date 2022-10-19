@@ -9,13 +9,17 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Ubah Master Barang</h1>
+                <h1 id="getting-started" class="link-heading">Tambah Master Barang</h1>
                 <hr/>
                 <form action="{{url('master-barang/store')}}" method="post">
                 @csrf
                     <div class="mb-3">
                         <label for="nama_barang" class="form-label">Nama Barang</label>
                         <textarea class="form-control" id="nama_barang" name="nama_barang"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit">
                     </div>
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>

@@ -7,110 +7,237 @@ use App\Models\PemesananHeader;
 use App\Models\PemesananDetail;
 use App\Models\MasterCustomer;
 use App\Models\MasterBarang;
-
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use File;
 
 class PemesananController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    
     public function index(){
-        $datas = PemesananHeader::orderBy('id','desc')->get();
+
+        $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
+        $getPemesananHeader = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
+                              ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
+                              ->where('id_customer', $getMasterCustomer->id)
+                              ->get();
+        $getPemesananHeaderAjukan = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
+                              ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
+                              ->where('status', '!=', 'Draft')
+                              ->get();
+
         $no = 1;
+        $role = Auth::user()->role;
+
+        
+        if($role == 'customer'){
+            $pemesananHeader = $getPemesananHeader; 
+        }else{
+            $pemesananHeader = $getPemesananHeaderAjukan; 
+        }
 
         $commandData = [
-            'datas' => $datas,
+            'pemesananHeader'    => $pemesananHeader,
             'no' => $no,
+            'role' => $role
         ];
         return view('transaksi.pemesanan.index', $commandData);
     }
 
     public function add()
     {
-        $customer = MasterCustomer::get();
-        return view('transaksi.pemesanan.add',compact('customer'));
+        $getMasterCustomer = MasterCustomer::where('email', Auth::user()->email)->first();
+        $commandData = [
+            'getMasterCustomer'     => $getMasterCustomer,
+        ];
+        return view('transaksi.pemesanan.add', $commandData);
     }
 
 
     public function store(Request $request)
     {
-        $form = $request->all();
-        $customer = MasterCustomer::find($request->id_customer);
-        $form['alamat_customer'] = $customer->alamat;
-        $form['telepon_customer'] = $customer->no_telp;
-        $form['nama_customer'] = $customer->nama_customer;
-        $form['status'] = 'proses';
-        $form['tanggal_pemesanan'] = date("Y-m-d");
+        $tahun = date('Y');
+        
+        $bulan = date('m');
 
-        $last = PemesananHeader::where('tanggal_pemesanan',$form['tanggal_pemesanan'])
-        ->orderBy('no_pemesanan', 'desc')->first();
+        $tanggal = date('d');
 
-        if(isset($last)){
-            $no = substr($last->no_pemesanan, -4);
-            $no = str_pad(intval($no) + 1, strlen($no), '0', STR_PAD_LEFT);
+        $no = 1;
 
-            $form['no_pemesanan'] = 'CO'.date('Ymd').$no;
+        $check = PemesananHeader::whereDate('created_at', Carbon::today())->get();
+        
+        $max = count($check);
+
+        if($max > 0){
+            $kode_pesanan = 'PO' . $tahun . $bulan . $tanggal . sprintf("%04s", abs($max + 1));
         }else{
-            $form['no_pemesanan'] = 'CO'.date('Ymd').'0001';
+            $kode_pesanan = 'PO' . $tahun . $bulan . $tanggal . sprintf("%04s", $no);
+        } 
+
+        $validator = Validator::make($request->all(),[
+            'file'          => 'required|max:25000',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            
+            if ($file = $request->file('file')) {
+                $filename           = $request->file('file')->getClientOriginalName();
+                $destinationPath    = 'uploads/';
+                $profileFile        = date('YmdHis') . "_" . $filename;
+                
+                $file->move($destinationPath, $profileFile);
+               
+            }
+
+            $storePemesananHeader = new PemesananHeader();
+            $storePemesananHeader->no_pemesanan       = $kode_pesanan;
+            $storePemesananHeader->tanggal_pemesanan  = $request->tanggal_pemesanan;
+            $storePemesananHeader->id_customer        = $request->id_customer;
+            $storePemesananHeader->alamat_customer    = $request->alamat_customer;
+            $storePemesananHeader->telepon_customer   = $request->telepon_customer;
+            $storePemesananHeader->fax_customer       = $request->fax_customer;
+            $storePemesananHeader->ship_to            = $request->ship_to;
+            $storePemesananHeader->delivery_deadline  = $request->delivery_deadline;
+            $storePemesananHeader->payment_terms      = $request->payment_terms;
+            $storePemesananHeader->remark             = $request->remark;
+            $storePemesananHeader->file               = $profileFile;
+            $storePemesananHeader->status             = 'Draft';
+            $storePemesananHeader->save();
+    
+            return redirect('/pemesanan/edit/'. $storePemesananHeader->id)->with('message', 'Data Pemesanan berhasil disimpan!');
         }
-
-        PemesananHeader::create($form);
-
-        return redirect('pemesanan')->with('message', 'Data berhasil disimpan!');
     }
 
-
-    public function edit($id)
+    public function add_detail($id)
     {
-        $data = PemesananHeader::find($id);
-        $customer = MasterCustomer::get();
-        $barang = MasterBarang::get();
-        $detail = PemesananDetail::where('id_pemesanan',$id)->get();
+        $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
+        $getPemesananHeader = PemesananHeader::where('id', $id)->first();
+        $getPemesananDetail = PemesananDetail::where('id_pemesanan', $getPemesananHeader->id)->get();
+        $getMasterBarang    = MasterBarang::get();
         $no = 1;
 
         $commandData = [
-            'data' => $data,
-            'customer' => $customer,
-            'barang' => $barang,
-            'detail' => $detail,
-            'no' => $no,
+            'getMasterCustomer'     => $getMasterCustomer,
+            'getPemesananHeader'    => $getPemesananHeader,
+            'getPemesananDetail'    => $getPemesananDetail,
+            'getMasterBarang'       => $getMasterBarang,
+            'no'                    => $no,
         ];
-
-        return view('transaksi.pemesanan.edit', $commandData);
+        return view('transaksi.pemesanan.add_detail', $commandData);
     }
 
+    public function store_detail(Request $request)
+    {
+        $getPemesananHeader = PemesananHeader::where('id', $request->id_pemesanan)->first();
+        $getMasterBarang    = MasterBarang::where('id', $request->id_barang)->first();
+
+        $storePemesananDetail = new PemesananDetail();
+        $storePemesananDetail->id_pemesanan     = $request->id_pemesanan;
+        $storePemesananDetail->id_barang        = $request->id_barang;
+        $storePemesananDetail->nama_barang      = $getMasterBarang->nama_barang;
+        $storePemesananDetail->unit             = $getMasterBarang->unit;
+        $storePemesananDetail->qty              = $request->qty;
+        $storePemesananDetail->unit_price       = $getMasterBarang->harga;
+        $storePemesananDetail->total            = $request->qty*$getMasterBarang->harga;
+        $storePemesananDetail->save();
+
+        return redirect('/pemesanan/edit/'. $getPemesananHeader->id)->with('message', 'Data Pemesanan berhasil disimpan!');
+    }
 
     public function update(Request $request, $id)
     {
-        $form = $request->all();
+        if($request->file == null){
+            $updatePemesananHeader = PemesananHeader::find($id);
+            $updatePemesananHeader->ship_to            = $request->ship_to;
+            $updatePemesananHeader->delivery_deadline  = $request->delivery_deadline;
+            $updatePemesananHeader->remark             = $request->remark;
+            $updatePemesananHeader->save();
+            return redirect('/pemesanan/edit/'. $updatePemesananHeader->id)->with('message', 'Data Pemesanan berhasil diubah!');
+        }else{
+            $validator = Validator::make($request->all(),[
+                'file'          => 'required|max:25000',
+            ]);
+    
+            if($validator->fails()){
+                return redirect()->back()->withErrors($validator)->withInput();
+            }else{
+                $getPemesananHeader = PemesananHeader::find($id);
+                File::delete(public_path('uploads/' . $getPemesananHeader->file));
+                
+                if ($file = $request->file('file')) {
+                    $filename           = $request->file('file')->getClientOriginalName();
+                    $destinationPath    = 'uploads/';
+                    $profileFile        = date('YmdHis') . "_" . $filename;
+                    
+                    $file->move($destinationPath, $profileFile);
+                   
+                }
+    
+                $updatePemesananHeader = PemesananHeader::find($id);
+                $updatePemesananHeader->ship_to            = $request->ship_to;
+                $updatePemesananHeader->delivery_deadline  = $request->delivery_deadline;
+                $updatePemesananHeader->remark             = $request->remark;
+                $updatePemesananHeader->file               = $profileFile;
+                $updatePemesananHeader->save();
+        
+                return redirect('/pemesanan/edit/'. $getPemesananHeader->id)->with('message', 'Data Pemesanan berhasil diubah!');
+            }
+        }
+    }
 
-        $updateMasterPrinciple = PemesananHeader::find($id)->update($form);
+    public function update_status(Request $request,$id)
+    {
+        if($request->status == 'approve'){
+            $status = 'Approve';
+        }else{
+            $status = 'Ajukan Baru';
+        }
+        $updateStatus= PemesananHeader::find($id);
+        $updateStatus->status = $status;
+        $updateStatus->save();
+        
+        if($request->status == 'approve'){
+            return redirect('/pemesanan')->with('message', 'Data Pemesanan berhasil disetujui!');
+        }else{
+            return redirect('/pemesanan/edit/'. $id)->with('message', 'Data Pemesanan berhasil diajukan!');
+        }
 
-        return redirect('/pemesanan')->with('message', 'Data berhasil diubah!');
     }
 
 
     public function delete($id)
     {
-        $delete = PemesananHeader::find($id)->delete();
+        $getPemesananHeader = PemesananHeader::where('id', $id)->first();
+        File::delete(public_path('uploads/' . $getPemesananHeader->file));
+        $delPemesananHeader = PemesananHeader::delPemesananHeader($id);
 
-        return redirect('/pemesanan')->with('message', 'Data berhasil dihapus!');
+        return redirect('/pemesanan')->with('message', 'Data Pemesanan berhasil dihapus!');
     }
-    
-    public function storeDetail(Request $request)
+
+    public function delete_detail($id)
     {
-        $form = $request->all();
-        $barang = MasterBarang::find($request->id_barang);
-        $form['nama_barang'] = $barang->nama_barang;
-        $form['unit_price'] = $barang->harga;
-        $form['total'] = $barang->harga*$request->qty;
+        $getPemesananDetail = PemesananDetail::where('id', $id)->first();
+        $getPemesananHeader = PemesananHeader::where('id', $getPemesananDetail->id_pemesanan)->first();
+        $delPemesananDetail = PemesananDetail::delPemesananDetail($id);
 
-        PemesananDetail::create($form);
-
-        return redirect()->back()->with(['success' => 'Data Berhasil Diubah']); ;
-    }
-    
-    public function deleteDetail($id)
-    {
-        $delete = PemesananDetail::find($id)->delete();
-
-        return redirect()->back()->with(['success' => 'Data Berhasil Dihapus']);
+        return redirect('/pemesanan/edit/'. $getPemesananHeader->id)->with('message', 'Data Pemesanan Detail berhasil dihapus!');
     }
 }

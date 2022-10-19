@@ -15,17 +15,29 @@ class PemesananHeader extends Model
         'no_pemesanan', 
         'tanggal_pemesanan', 
         'id_customer',
-        'nama_customer',
         'alamat_customer',
         'telepon_customer',
         'fax_customer',
         'ship_to',
         'delivery_deadline',
-        'delivery_terms',
         'payment_terms',
         'remark',
-        'status',
-        'created_at',
-        'updated_at'
+        'file',
+        'status'
     ];
+
+    public static function getPemesananHeader()
+    {
+        $getPemesananHeader = PemesananHeader::orderBy('created_at', 'asc')
+        ->get();
+
+        return $getPemesananHeader;
+    }
+
+    public static function delPemesananHeader($id)
+    {
+        $delPemesananHeaderbyId = PemesananHeader::destroy($id);
+
+        return $delPemesananHeaderbyId;
+    }
 }

@@ -7,6 +7,22 @@ use App\Models\MasterCustomer;
 
 class MasterCustomerController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    
     public function index(){
         $getMasterCustomer = MasterCustomer::getMasterCustomer();
         $no = 1;
@@ -26,12 +42,16 @@ class MasterCustomerController extends Controller
 
     public function store(Request $request)
     {
-        $nama_customer = $request->nama_customer;
-        $alamat = $request->alamat;
-        $no_telp = $request->no_telp;
-        $nama_pic = $request->nama_pic;
+        $nama_customer      = $request->nama_customer;
+        $alamat             = $request->alamat;
+        $email              = $request->email;
+        $no_telp            = $request->no_telp;
+        $fax                = $request->fax;
+        $nama_pic           = $request->nama_pic;
+        $jabatan_pic        = $request->jabatan_pic;
+        $payment_terms      = $request->payment_terms;
 
-        $storeMasterCustomer = MasterCustomer::storeMasterCustomer($nama_customer, $alamat, $no_telp, $nama_pic);
+        $storeMasterCustomer = MasterCustomer::storeMasterCustomer($nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms);
 
         return redirect('/master-customer')->with('message', 'Data Customer berhasil disimpan!');
     }
@@ -51,13 +71,16 @@ class MasterCustomerController extends Controller
 
     public function update(Request $request, $id)
     {
-        $nama_customer = $request->nama_customer;
-        $alamat = $request->alamat;
-        $no_telp = $request->no_telp;
-        $nama_pic = $request->nama_pic;
+        $nama_customer      = $request->nama_customer;
+        $alamat             = $request->alamat;
+        $email              = $request->email;
+        $no_telp            = $request->no_telp;
+        $fax                = $request->fax;
+        $nama_pic           = $request->nama_pic;
+        $jabatan_pic        = $request->jabatan_pic;
+        $payment_terms      = $request->payment_terms;
 
-
-        $updateMasterCustomer = MasterCustomer::updateMasterCustomer ($id, $nama_customer, $alamat, $no_telp, $nama_pic);
+        $updateMasterCustomer = MasterCustomer::updateMasterCustomer ($id, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms);
 
         return redirect('/master-customer')->with('message', 'Data Customer berhasil diubah!');
     }

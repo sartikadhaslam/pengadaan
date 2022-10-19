@@ -25,9 +25,10 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Customer</th>
-                            <th scope="col">Alamat</th>
                             <th scope="col">No Telepon</th>
-                            <th scope="col">Nama PIC</th>
+                            <th scope="col">No Fax</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Payment Terms</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -36,9 +37,10 @@
                         <tr>
                             <td>{{ $no++ }}</td>
                             <td>{{$masterCustomer->nama_customer}}</td>
-                            <td>{{$masterCustomer->alamat}}</td>
                             <td>{{$masterCustomer->no_telp}}</td>
-                            <td>{{$masterCustomer->nama_pic}}</td>
+                            <td>{{$masterCustomer->fax}}</td>
+                            <td>{{$masterCustomer->email}}</td>
+                            <td>{{$masterCustomer->payment_terms}}</td>
                             <td>
                                 <div class="row">
                                     <div class="d-inline">

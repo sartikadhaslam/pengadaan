@@ -21,4 +21,11 @@ class PemesananDetail extends Model
         'total'
     ];
 
+    public static function delPemesananDetail($id)
+    {
+        $delPemesananDetailbyId = PemesananDetail::destroy($id);
+
+        return $delPemesananDetailbyId;
+    }
+
 }

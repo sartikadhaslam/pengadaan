@@ -14,8 +14,11 @@ class MasterPrinciple extends Model
     protected $fillable = [
         'nama_principle', 
         'alamat', 
+        'email',
         'no_telp',
-        'nama_pic'
+        'fax',
+        'nama_pic',
+        'jabatan_pic'
     ];
 
     public static function getMasterPrinciple()
@@ -33,25 +36,31 @@ class MasterPrinciple extends Model
         return $getMasterPrinciplebyId;
     }
 
-    public static function storeMasterPrinciple($nama_principle, $alamat, $no_telp, $nama_pic)
+    public static function storeMasterPrinciple($nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic)
     {
         $storeMasterPrinciple = new MasterPrinciple();
-        $storeMasterPrinciple->nama_principle = $nama_principle;
-        $storeMasterPrinciple->alamat = $alamat;
-        $storeMasterPrinciple->no_telp = $no_telp;
-        $storeMasterPrinciple->nama_pic = $nama_pic;
+        $storeMasterPrinciple->nama_principle   = $nama_principle;
+        $storeMasterPrinciple->alamat           = $alamat;
+        $storeMasterPrinciple->email            = $email;
+        $storeMasterPrinciple->no_telp          = $no_telp;
+        $storeMasterPrinciple->fax              = $fax;
+        $storeMasterPrinciple->nama_pic         = $nama_pic;
+        $storeMasterPrinciple->jabatan_pic      = $jabatan_pic;
         $storeMasterPrinciple->save();
 
         return $storeMasterPrinciple;
     }
 
-    public static function updateMasterPrinciple($id, $nama_principle, $alamat, $no_telp, $nama_pic)
+    public static function updateMasterPrinciple($id, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic)
     {
         $updateMasterPrinciple = MasterPrinciple::find($id);
-        $updateMasterPrinciple->nama_principle = $nama_principle;
-        $updateMasterPrinciple->alamat = $alamat;
-        $updateMasterPrinciple->no_telp = $no_telp;
-        $updateMasterPrinciple->nama_pic = $nama_pic;
+        $updateMasterPrinciple->nama_principle   = $nama_principle;
+        $updateMasterPrinciple->alamat           = $alamat;
+        $updateMasterPrinciple->email            = $email;
+        $updateMasterPrinciple->no_telp          = $no_telp;
+        $updateMasterPrinciple->fax              = $fax;
+        $updateMasterPrinciple->nama_pic         = $nama_pic;
+        $updateMasterPrinciple->jabatan_pic      = $jabatan_pic;
         $updateMasterPrinciple->save();
 
         return $updateMasterPrinciple;

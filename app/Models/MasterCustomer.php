@@ -14,8 +14,12 @@ class MasterCustomer extends Model
     protected $fillable = [
         'nama_customer', 
         'alamat', 
+        'email',
         'no_telp',
-        'nama_pic'
+        'fax',
+        'nama_pic',
+        'jabatan_pic',
+        'payment_terms',
     ];
 
     public static function getMasterCustomer()
@@ -33,25 +37,33 @@ class MasterCustomer extends Model
         return $getMasterCustomerbyId;
     }
 
-    public static function storeMasterCustomer($nama_customer, $alamat, $no_telp, $nama_pic)
+    public static function storeMasterCustomer($nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms)
     {
         $storeMasterCustomer = new MasterCustomer();
         $storeMasterCustomer->nama_customer = $nama_customer;
-        $storeMasterCustomer->alamat = $alamat;
-        $storeMasterCustomer->no_telp = $no_telp;
-        $storeMasterCustomer->nama_pic = $nama_pic;
+        $storeMasterCustomer->alamat        = $alamat;
+        $storeMasterCustomer->email         = $email;
+        $storeMasterCustomer->no_telp       = $no_telp;
+        $storeMasterCustomer->fax           = $fax;
+        $storeMasterCustomer->nama_pic      = $nama_pic;
+        $storeMasterCustomer->jabatan_pic   = $jabatan_pic;
+        $storeMasterCustomer->payment_terms = $payment_terms;
         $storeMasterCustomer->save();
 
         return $storeMasterCustomer;
     }
 
-    public static function updateMasterCustomer($id, $nama_customer, $alamat, $no_telp, $nama_pic)
+    public static function updateMasterCustomer($id, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms)
     {
         $updateMasterCustomer = MasterCustomer::find($id);
-        $updateMasterCustomer->nama_customer = $nama_customer;
-        $updateMasterCustomer->alamat = $alamat;
-        $updateMasterCustomer->no_telp = $no_telp;
-        $updateMasterCustomer->nama_pic = $nama_pic;
+        $updateMasterCustomer->nama_customer     = $nama_customer;
+        $updateMasterCustomer->alamat            = $alamat;
+        $updateMasterCustomer->email             = $email;
+        $updateMasterCustomer->no_telp           = $no_telp;
+        $updateMasterCustomer->fax               = $fax;
+        $updateMasterCustomer->nama_pic          = $nama_pic;
+        $updateMasterCustomer->jabatan_pic       = $jabatan_pic;
+        $updateMasterCustomer->payment_terms     = $payment_terms;
         $updateMasterCustomer->save();
 
         return $updateMasterCustomer;

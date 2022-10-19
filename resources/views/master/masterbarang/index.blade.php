@@ -25,6 +25,7 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Barang</th>
+                            <th scope="col">Unit</th>
                             <th scope="col">Harga</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -34,6 +35,7 @@
                         <tr>
                             <td>{{ $no++ }}</td>
                             <td>{{$masterBarang->nama_barang}}</td>
+                            <td>{{$masterBarang->unit}}</td>
                             <td>{{$masterBarang->harga}}</td>
                             <td>
                                 <div class="row">
