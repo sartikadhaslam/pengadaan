@@ -8,7 +8,7 @@
                 <div class="docs-list">
                     <h5>DASHBOARD</h5>
                     <ul>
-                        <li><a href="./index.html">Dashboard</a></li>
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
                     </ul>
                     <h5>MASTER</h5>
                     <ul>
@@ -18,20 +18,24 @@
                     </ul>
                     
                     <h5>TRANSAKSI</h5>
-                    
                     <ul>
+                    @if(Auth::user()->role != 'principle')
                         <li><a href="{{url('/pemesanan')}}">Pemesanan oleh Customer</a></li>
+                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
+                    @if(Auth::user()->role != 'customer')
                         <li><a href="{{url('/pembelian')}}">Pembelian ke Principle</a></li>
                         <li><a href="{{url('/penerimaan')}}">Penerimaan dari Principle</a></li>
-                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
                     </ul>
-                    
+                    @if(Auth::user()->role == 'pengadaan')
                     <h5>LAPORAN</h5>
 
                     <ul>
                         <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
                         <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
                     </ul>
+                    @endif
                 </div>
             </div>      
         </div>
@@ -49,6 +53,9 @@
                 <div class="pb-3">
                     <a href="{{url('/master-principle/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
+                <div class="col-md-4 float-right">
+                    <input class="form-control" id="myInput" type="text" placeholder="Cari.."><br>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -60,7 +67,7 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         @foreach($getMasterPrinciple as $masterPrinciple)
                         <tr>
                             <td>{{ $no++ }}</td>
@@ -86,6 +93,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $getMasterPrinciple->links() !!}
             </div>    
         </div>  
 

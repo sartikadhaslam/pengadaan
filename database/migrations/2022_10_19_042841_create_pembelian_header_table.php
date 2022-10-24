@@ -15,7 +15,7 @@ class CreatePembelianHeaderTable extends Migration
     {
         Schema::create('pembelian_header', function (Blueprint $table) {
             $table->id();
-            $table->string('no_pembelian', 14);
+            $table->text('no_pembelian');
             $table->date('tanggal_pembelian');
             $table->integer('id_principle');
             $table->text('alamat_principle');

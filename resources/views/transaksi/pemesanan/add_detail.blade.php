@@ -8,30 +8,35 @@
                 <div class="docs-list">
                     <h5>DASHBOARD</h5>
                     <ul>
-                        <li><a href="./index.html">Dashboard</a></li>
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
                     </ul>
+                    @if(Auth::user()->role == 'pengadaan')
                     <h5>MASTER</h5>
                     <ul>
                         <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
                         <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
                     </ul>
-                    
+                    @endif
                     <h5>TRANSAKSI</h5>
-                    
                     <ul>
+                    @if(Auth::user()->role != 'principle')
                         <li><a href="{{url('/pemesanan')}}">Pemesanan oleh Customer</a></li>
+                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
+                    @if(Auth::user()->role != 'customer')
                         <li><a href="{{url('/pembelian')}}">Pembelian ke Principle</a></li>
                         <li><a href="{{url('/penerimaan')}}">Penerimaan dari Principle</a></li>
-                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
                     </ul>
-                    
+                    @if(Auth::user()->role == 'pengadaan')
                     <h5>LAPORAN</h5>
 
                     <ul>
                         <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
                         <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
                     </ul>
+                    @endif
                 </div>
             </div>      
         </div>
@@ -75,12 +80,12 @@
                                 <label for="fax_customer" class="form-label">Fax</label>
                                 <input type="text" class="form-control" id="fax_customer" name="fax_customer" value="{{ $getPemesananHeader->fax_customer }}" readonly>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="ship_to" class="form-label">Ship To</label>
                                 <input type="text" class="form-control" id="ship_to" name="ship_to" value="{{ $getPemesananHeader->ship_to }}">
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="delivery_deadline" class="form-label">Delivery Deadline</label>
                                 <input type="date" class="form-control" id="delivery_deadline" name="delivery_deadline" value="{{ $getPemesananHeader->delivery_deadline }}">
@@ -91,7 +96,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="remark" class="form-label">Remark</label>
-                                <textarea class="form-control" id="remark" name="remark" value="{{ $getPemesananHeader->remark }}">{{ $getPemesananHeader->remark }}</textarea>
+                                <textarea class="form-control" id="editor" name="remark" value="{{ $getPemesananHeader->remark }}">{{ $getPemesananHeader->remark }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
@@ -156,7 +161,7 @@
                             @csrf
                             @method('PUT')
                             <input type="text" name="status" id="status" value="ajukan" style="display:none;">
-                            <input type="submit" class="btn btn-sm btn-success" value="Ajukan PO">
+                            <input type="submit" class="btn btn-sm btn-success" value="Ajukan Pemesanan">
                         </form>
                         @endif
                     </div>

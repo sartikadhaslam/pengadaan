@@ -13,12 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('/home');
-});
-
 Auth::routes();
-
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Master Barang
@@ -60,9 +56,11 @@ Route::delete('/pemesanan/detail/delete/{id}', 'App\Http\Controllers\PemesananCo
 Route::get('/pembelian', [App\Http\Controllers\PembelianController::class, 'index'])->name('pembelian');
 Route::get('/pembelian/add', 'App\Http\Controllers\PembelianController@add');
 Route::post('/pembelian/store', 'App\Http\Controllers\PembelianController@store');
-Route::get('/pembelian/edit/{id}', 'App\Http\Controllers\PembelianController@edit');
+Route::get('/pembelian/edit/{id}', 'App\Http\Controllers\PembelianController@add_detail');
 Route::put('/pembelian/update/{id}', 'App\Http\Controllers\PembelianController@update');
+Route::put('/pembelian/update/status/{id}', 'App\Http\Controllers\PembelianController@update_status');
 Route::delete('/pembelian/delete/{id}', 'App\Http\Controllers\PembelianController@delete');
+Route::get('principle/request', [App\Http\Controllers\PembelianController::class, 'getDataPrinciple'])->name('principle.request');
 
 //Master Penerimaan
 Route::get('/Penerimaan', [App\Http\Controllers\PenerimaanController::class, 'index'])->name('penerimaan');

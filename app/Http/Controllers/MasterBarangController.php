@@ -42,11 +42,13 @@ class MasterBarangController extends Controller
 
     public function store(Request $request)
     {
-        $nama_barang = $request->nama_barang;
-        $unit = $request->unit;
-        $harga = $request->harga;
+        $kode_barang    = $request->kode_barang;
+        $nama_barang    = $request->nama_barang;
+        $unit           = $request->unit;
+        $harga_beli     = $request->harga_beli;
+        $harga_jual     = $request->harga_jual;
 
-        $storeMasterBarang = MasterBarang::storeMasterBarang($nama_barang, $unit, $harga);
+        $storeMasterBarang = MasterBarang::storeMasterBarang($kode_barang, $nama_barang, $unit, $harga_beli, $harga_jual);
 
         return redirect('/master-barang')->with('message', 'Data Barang berhasil disimpan!');
     }
@@ -66,11 +68,13 @@ class MasterBarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        $nama_barang = $request->nama_barang;
-        $unit = $request->unit;
-        $harga = $request->harga;
+        $kode_barang    = $request->kode_barang;
+        $nama_barang    = $request->nama_barang;
+        $unit           = $request->unit;
+        $harga_beli     = $request->harga_beli;
+        $harga_jual     = $request->harga_jual;
 
-        $updateMasterBarang = MasterBarang::updateMasterBarang($id, $nama_barang, $unit, $harga);
+        $updateMasterBarang = MasterBarang::updateMasterBarang($id, $kode_barang, $nama_barang, $unit, $harga_beli, $harga_jual);
 
         return redirect('/master-barang')->with('message', 'Data Barang berhasil diubah!');
     }

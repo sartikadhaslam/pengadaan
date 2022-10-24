@@ -15,6 +15,7 @@ class CreateMasterPrincipleTable extends Migration
     {
         Schema::create('master_principle', function (Blueprint $table) {
             $table->id();
+            $table->text('kode_principle');
             $table->text('nama_principle');
             $table->text('alamat');
             $table->text('email');

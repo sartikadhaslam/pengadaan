@@ -43,6 +43,7 @@ class MasterPrincipleController extends Controller
 
     public function store(Request $request)
     {
+        $kode_principle     = $request->kode_principle;
         $nama_principle     = $request->nama_principle;
         $alamat             = $request->alamat;
         $email              = $request->email;
@@ -51,7 +52,7 @@ class MasterPrincipleController extends Controller
         $nama_pic           = $request->nama_pic;
         $jabatan_pic        = $request->jabatan_pic;
 
-        $storeMasterPrinciple = MasterPrinciple::storeMasterPrinciple($nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic);
+        $storeMasterPrinciple = MasterPrinciple::storeMasterPrinciple($kode_principle, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic);
 
         return redirect('/master-principle')->with('message', 'Data Principle berhasil disimpan!');
     }
@@ -71,6 +72,7 @@ class MasterPrincipleController extends Controller
 
     public function update(Request $request, $id)
     {
+        $kode_principle     = $request->kode_principle;
         $nama_principle     = $request->nama_principle;
         $alamat             = $request->alamat;
         $email              = $request->email;
@@ -80,7 +82,7 @@ class MasterPrincipleController extends Controller
         $jabatan_pic        = $request->jabatan_pic;
 
 
-        $updateMasterPrinciple = MasterPrinciple::updateMasterPrinciple($id, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic);
+        $updateMasterPrinciple = MasterPrinciple::updateMasterPrinciple($id, $kode_principle, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic);
 
         return redirect('/master-principle')->with('message', 'Data Principle berhasil diubah!');
     }

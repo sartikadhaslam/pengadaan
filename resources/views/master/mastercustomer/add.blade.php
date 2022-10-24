@@ -8,30 +8,35 @@
                 <div class="docs-list">
                     <h5>DASHBOARD</h5>
                     <ul>
-                        <li><a href="./index.html">Dashboard</a></li>
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
                     </ul>
+                    @if(Auth::user()->role == 'pengadaan')
                     <h5>MASTER</h5>
                     <ul>
                         <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
-                        <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
+                        <li><a href="{{url('/master-customer')}}" class="active">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
                     </ul>
-                    
+                    @endif
                     <h5>TRANSAKSI</h5>
-                    
                     <ul>
+                    @if(Auth::user()->role != 'principle')
                         <li><a href="{{url('/pemesanan')}}">Pemesanan oleh Customer</a></li>
+                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
+                    @if(Auth::user()->role != 'customer')
                         <li><a href="{{url('/pembelian')}}">Pembelian ke Principle</a></li>
                         <li><a href="{{url('/penerimaan')}}">Penerimaan dari Principle</a></li>
-                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
                     </ul>
-                    
+                    @if(Auth::user()->role == 'pengadaan')
                     <h5>LAPORAN</h5>
 
                     <ul>
                         <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
                         <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
                     </ul>
+                    @endif
                 </div>
             </div>      
         </div>
@@ -42,6 +47,10 @@
                 <hr/>
                 <form action="{{url('master-customer/store')}}" method="post">
                 @csrf
+                    <div class="mb-3">
+                        <label for="kode_customer" class="form-label">Kode Customer</label>
+                        <input type="text" class="form-control" id="kode_customer" name="kode_customer">
+                    </div>
                     <div class="mb-3">
                         <label for="nama_customer" class="form-label">Nama Customer</label>
                         <input type="text" class="form-control" id="nama_customer" name="nama_customer">

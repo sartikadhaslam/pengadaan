@@ -15,6 +15,7 @@ class CreateMasterCustomerTable extends Migration
     {
         Schema::create('master_customer', function (Blueprint $table) {
             $table->id();
+            $table->text('kode_customer');
             $table->text('nama_customer');
             $table->text('alamat');
             $table->text('email');

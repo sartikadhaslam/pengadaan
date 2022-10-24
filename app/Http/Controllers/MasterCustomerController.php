@@ -42,6 +42,7 @@ class MasterCustomerController extends Controller
 
     public function store(Request $request)
     {
+        $kode_customer      = $request->kode_customer;
         $nama_customer      = $request->nama_customer;
         $alamat             = $request->alamat;
         $email              = $request->email;
@@ -51,7 +52,7 @@ class MasterCustomerController extends Controller
         $jabatan_pic        = $request->jabatan_pic;
         $payment_terms      = $request->payment_terms;
 
-        $storeMasterCustomer = MasterCustomer::storeMasterCustomer($nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms);
+        $storeMasterCustomer = MasterCustomer::storeMasterCustomer($kode_customer, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms);
 
         return redirect('/master-customer')->with('message', 'Data Customer berhasil disimpan!');
     }
@@ -71,6 +72,7 @@ class MasterCustomerController extends Controller
 
     public function update(Request $request, $id)
     {
+        $kode_customer      = $request->kode_customer;
         $nama_customer      = $request->nama_customer;
         $alamat             = $request->alamat;
         $email              = $request->email;
@@ -80,7 +82,7 @@ class MasterCustomerController extends Controller
         $jabatan_pic        = $request->jabatan_pic;
         $payment_terms      = $request->payment_terms;
 
-        $updateMasterCustomer = MasterCustomer::updateMasterCustomer ($id, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms);
+        $updateMasterCustomer = MasterCustomer::updateMasterCustomer ($id, $kode_customer, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms);
 
         return redirect('/master-customer')->with('message', 'Data Customer berhasil diubah!');
     }

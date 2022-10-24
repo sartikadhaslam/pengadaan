@@ -12,19 +12,20 @@ class MasterPrinciple extends Model
     protected $table = 'master_principle';
 
     protected $fillable = [
+        'kode_principle',
         'nama_principle', 
         'alamat', 
         'email',
         'no_telp',
         'fax',
         'nama_pic',
-        'jabatan_pic'
+        'jabatan_pic',
     ];
 
     public static function getMasterPrinciple()
     {
         $getMasterPrinciple = MasterPrinciple::orderBy('nama_principle', 'asc')
-        ->get();
+        ->paginate(10);
 
         return $getMasterPrinciple;
     }
@@ -36,9 +37,10 @@ class MasterPrinciple extends Model
         return $getMasterPrinciplebyId;
     }
 
-    public static function storeMasterPrinciple($nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic)
+    public static function storeMasterPrinciple($kode_principle, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic)
     {
         $storeMasterPrinciple = new MasterPrinciple();
+        $storeMasterPrinciple->kode_principle   = $kode_principle;
         $storeMasterPrinciple->nama_principle   = $nama_principle;
         $storeMasterPrinciple->alamat           = $alamat;
         $storeMasterPrinciple->email            = $email;
@@ -51,9 +53,10 @@ class MasterPrinciple extends Model
         return $storeMasterPrinciple;
     }
 
-    public static function updateMasterPrinciple($id, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic)
+    public static function updateMasterPrinciple($id, $kode_principle, $nama_principle, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic)
     {
         $updateMasterPrinciple = MasterPrinciple::find($id);
+        $updateMasterPrinciple->kode_principle   = $kode_principle;
         $updateMasterPrinciple->nama_principle   = $nama_principle;
         $updateMasterPrinciple->alamat           = $alamat;
         $updateMasterPrinciple->email            = $email;
