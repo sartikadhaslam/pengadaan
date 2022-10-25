@@ -4,7 +4,42 @@
 <div class="">
     <div class="documentation-container">
         <div class="docs-sidebar">
-            @include('layouts.sidebar')  
+
+            <div class="docs-content-area">
+                <div class="docs-list">
+                    <h5>DASHBOARD</h5>
+                    <ul>
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
+                    </ul>
+                    @if(Auth::user()->role == 'pengadaan')
+                    <h5>MASTER</h5>
+                    <ul>
+                        <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
+                        <li><a href="{{url('/master-customer')}}" class="active">Master Customer</a></li>
+                        <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
+                    </ul>
+                    @endif
+                    <h5>TRANSAKSI</h5>
+                    <ul>
+                    @if(Auth::user()->role != 'principle')
+                        <li><a href="{{url('/pemesanan')}}">Pemesanan oleh Customer</a></li>
+                        <li><a href="{{url('/pengiriman')}}">Pengiriman ke Customer</a></li>
+                    @endif
+                    @if(Auth::user()->role != 'customer')
+                        <li><a href="{{url('/pembelian')}}">Pembelian ke Principle</a></li>
+                        <li><a href="{{url('/penerimaan')}}">Penerimaan dari Principle</a></li>
+                    @endif
+                    </ul>
+                    @if(Auth::user()->role == 'pengadaan')
+                    <h5>LAPORAN</h5>
+
+                    <ul>
+                        <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
+                        <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
+                    </ul>
+                    @endif
+                </div>
+            </div>      
         </div>
 
         <div class="docs-container-content">
@@ -14,32 +49,32 @@
                 @if (session()->has('message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         {{ session('message') }}.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
                 <div class="pb-3">
                     <a href="{{url('/master-customer/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
+                <div class="col-md-4 float-right">
+                    <input class="form-control" id="myInput" type="text" placeholder="Cari.."><br>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama Customer</th>
-                            <th scope="col">No Telepon</th>
-                            <th scope="col">No Fax</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Payment Terms</th>
-                            <th scope="col">Action</th>
+                            <th scope="col"  class="align-middle" >No</th>
+                            <th scope="col"  class="align-middle" >Nama Customer</th>
+                            <th scope="col"  class="align-middle" >No Telepon</th>
+                            <th scope="col"  class="align-middle" >PIC</th>
+                            <th scope="col"  class="align-middle" >Payment Terms</th>
+                            <th scope="col"  class="align-middle" >Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         @foreach($getMasterCustomer as $masterCustomer)
                         <tr>
                             <td>{{ $no++ }}</td>
                             <td>{{$masterCustomer->nama_customer}}</td>
                             <td>{{$masterCustomer->no_telp}}</td>
-                            <td>{{$masterCustomer->fax}}</td>
-                            <td>{{$masterCustomer->email}}</td>
+                            <td>{{$masterCustomer->nama_pic}}</td>
                             <td>{{$masterCustomer->payment_terms}}</td>
                             <td>
                                 <div class="row">
@@ -59,6 +94,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $getMasterCustomer->links() !!}
             </div>    
         </div>  
 

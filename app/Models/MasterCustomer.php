@@ -12,6 +12,7 @@ class MasterCustomer extends Model
     protected $table = 'master_customer';
 
     protected $fillable = [
+        'kode_customer',
         'nama_customer', 
         'alamat', 
         'email',
@@ -25,7 +26,7 @@ class MasterCustomer extends Model
     public static function getMasterCustomer()
     {
         $getMasterCustomer = MasterCustomer::orderBy('nama_customer', 'asc')
-        ->get();
+        ->paginate(10);
 
         return $getMasterCustomer;
     }
@@ -37,9 +38,10 @@ class MasterCustomer extends Model
         return $getMasterCustomerbyId;
     }
 
-    public static function storeMasterCustomer($nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms)
+    public static function storeMasterCustomer($kode_customer, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms)
     {
         $storeMasterCustomer = new MasterCustomer();
+        $storeMasterCustomer->kode_customer = $kode_customer;
         $storeMasterCustomer->nama_customer = $nama_customer;
         $storeMasterCustomer->alamat        = $alamat;
         $storeMasterCustomer->email         = $email;
@@ -53,9 +55,10 @@ class MasterCustomer extends Model
         return $storeMasterCustomer;
     }
 
-    public static function updateMasterCustomer($id, $nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms)
+    public static function updateMasterCustomer($id, $kode_customer,$nama_customer, $alamat, $email, $no_telp, $fax, $nama_pic, $jabatan_pic, $payment_terms)
     {
         $updateMasterCustomer = MasterCustomer::find($id);
+        $updateMasterCustomer->kode_customer     = $kode_customer;
         $updateMasterCustomer->nama_customer     = $nama_customer;
         $updateMasterCustomer->alamat            = $alamat;
         $updateMasterCustomer->email             = $email;

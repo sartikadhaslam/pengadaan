@@ -17,17 +17,28 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('assets/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{asset('assets/prism/prism.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <link rel="stylesheet" href="{{asset('assets/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/style-dark.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdn.ckeditor.com/4.20.0/basic/ckeditor.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="{{asset('/js/custom.js')}}"></script>
-        <!-- CSS -->
-
-    <!-- Styles -->
+    <style>
+        .pagination{
+            float: right;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body class="loader-active dark"  data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" tabindex="0">
     <div class="site-overlay"></div>
@@ -38,7 +49,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu menu-show"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x menu-cancel"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </div>
-                <a class="navbar-brand" href="./index.html">CACM</a>
+                <a class="navbar-brand" href="{{url('/')}}">
+                    <img src="{{asset('/logo.png')}}" alt="" width="60px">&nbsp;&nbsp;&nbsp;PT. Unideby Kencana
+                </a>
             </div>
             
             <div class="nav-menu-container">
@@ -57,12 +70,6 @@
                         @if (Route::has('login'))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @endif
                     @else
@@ -95,20 +102,10 @@
     <script src="{{asset('assets/clipboard.min.js')}}"></script>
     <script src="{{asset('assets/script.js')}}"></script>
     <script>
-        function validateForm(){
-            if (confirm("Yakin data akan dihapus?") == true) {
-            return true;
-            } else {
-            return false;
-            }
-        }
-        function validateFormAjukan(){
-            if (confirm("Yakin data akan diproses?") == true) {
-            return true;
-            } else {
-            return false;
-            }
-        }
+         CKEDITOR.replace('editor', {
+            height: 100,
+        });
     </script>
+   
 </body>
 </html>

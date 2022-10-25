@@ -12,15 +12,17 @@ class MasterBarang extends Model
     protected $table = 'master_barang';
 
     protected $fillable = [
+        'kode_barang',
         'nama_barang', 
         'unit',
-        'harga', 
+        'harga_beli',
+        'harga_jual' 
     ];
 
     public static function getMasterBarang()
     {
         $getMasterBarang = MasterBarang::orderBy('nama_barang', 'asc')
-        ->get();
+        ->paginate(10);
 
         return $getMasterBarang;
     }
@@ -32,23 +34,27 @@ class MasterBarang extends Model
         return $getMasterBarangbyId;
     }
 
-    public static function storeMasterBarang($nama_barang, $unit, $harga)
+    public static function storeMasterBarang($kode_barang, $nama_barang, $unit, $harga_beli, $harga_jual)
     {
         $storeMasterBarang = new MasterBarang();
+        $storeMasterBarang->kode_barang = $kode_barang;
         $storeMasterBarang->nama_barang = $nama_barang;
-        $storeMasterBarang->unit = $unit;
-        $storeMasterBarang->harga = $harga;
+        $storeMasterBarang->unit        = $unit;
+        $storeMasterBarang->harga_beli  = $harga_beli;
+        $storeMasterBarang->harga_jual  = $harga_jual;
         $storeMasterBarang->save();
 
         return $storeMasterBarang;
     }
 
-    public static function updateMasterBarang($id, $nama_barang, $unit, $harga)
+    public static function updateMasterBarang($id, $kode_barang, $nama_barang, $unit, $harga_beli, $harga_jual)
     {
         $updateMasterBarang = MasterBarang::find($id);
+        $updateMasterBarang->kode_barang = $kode_barang;
         $updateMasterBarang->nama_barang = $nama_barang;
-        $updateMasterBarang->unit = $unit;
-        $updateMasterBarang->harga = $harga;
+        $updateMasterBarang->unit        = $unit;
+        $updateMasterBarang->harga_beli  = $harga_beli;
+        $updateMasterBarang->harga_jual  = $harga_jual;
         $updateMasterBarang->save();
 
         return $updateMasterBarang;

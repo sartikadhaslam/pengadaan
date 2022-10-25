@@ -31,15 +31,24 @@ class PemesananController extends Controller
      */
     
     public function index(){
+<<<<<<< HEAD
+        $role = Auth::user()->role;
+        if($role == 'customer'){
+=======
 
+>>>>>>> d107228e50362e897763603b55dab85b91b9ba0b
         $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
-        $getPemesananHeader = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
+        $pemesananHeader    = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
                               ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
                               ->where('id_customer', $getMasterCustomer->id)
-                              ->get();
-        $getPemesananHeaderAjukan = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
+                              ->paginate(10);
+        }else{
+        $pemesananHeader    = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
                               ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
                               ->where('status', '!=', 'Draft')
+<<<<<<< HEAD
+                              ->paginate(10);
+=======
                               ->get();
 
         $no = 1;
@@ -50,7 +59,9 @@ class PemesananController extends Controller
             $pemesananHeader = $getPemesananHeader; 
         }else{
             $pemesananHeader = $getPemesananHeaderAjukan; 
+>>>>>>> d107228e50362e897763603b55dab85b91b9ba0b
         }
+        $no = 1;
 
         $commandData = [
             'pemesananHeader'    => $pemesananHeader,
@@ -72,24 +83,6 @@ class PemesananController extends Controller
 
     public function store(Request $request)
     {
-        $tahun = date('Y');
-        
-        $bulan = date('m');
-
-        $tanggal = date('d');
-
-        $no = 1;
-
-        $check = PemesananHeader::whereDate('created_at', Carbon::today())->get();
-        
-        $max = count($check);
-
-        if($max > 0){
-            $kode_pesanan = 'PO' . $tahun . $bulan . $tanggal . sprintf("%04s", abs($max + 1));
-        }else{
-            $kode_pesanan = 'PO' . $tahun . $bulan . $tanggal . sprintf("%04s", $no);
-        } 
-
         $validator = Validator::make($request->all(),[
             'file'          => 'required|max:25000',
         ]);
@@ -108,7 +101,7 @@ class PemesananController extends Controller
             }
 
             $storePemesananHeader = new PemesananHeader();
-            $storePemesananHeader->no_pemesanan       = $kode_pesanan;
+            $storePemesananHeader->no_pemesanan       = $request->no_pemesanan;
             $storePemesananHeader->tanggal_pemesanan  = $request->tanggal_pemesanan;
             $storePemesananHeader->id_customer        = $request->id_customer;
             $storePemesananHeader->alamat_customer    = $request->alamat_customer;
@@ -130,7 +123,7 @@ class PemesananController extends Controller
     {
         $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
         $getPemesananHeader = PemesananHeader::where('id', $id)->first();
-        $getPemesananDetail = PemesananDetail::where('id_pemesanan', $getPemesananHeader->id)->get();
+        $getPemesananDetail = PemesananDetail::where('id_pemesanan', $id)->get();
         $getMasterBarang    = MasterBarang::get();
         $no = 1;
 
@@ -155,8 +148,8 @@ class PemesananController extends Controller
         $storePemesananDetail->nama_barang      = $getMasterBarang->nama_barang;
         $storePemesananDetail->unit             = $getMasterBarang->unit;
         $storePemesananDetail->qty              = $request->qty;
-        $storePemesananDetail->unit_price       = $getMasterBarang->harga;
-        $storePemesananDetail->total            = $request->qty*$getMasterBarang->harga;
+        $storePemesananDetail->unit_price       = $getMasterBarang->harga_jual;
+        $storePemesananDetail->total            = $request->qty*$getMasterBarang->harga_jual;
         $storePemesananDetail->save();
 
         return redirect('/pemesanan/edit/'. $getPemesananHeader->id)->with('message', 'Data Pemesanan berhasil disimpan!');
@@ -166,6 +159,7 @@ class PemesananController extends Controller
     {
         if($request->file == null){
             $updatePemesananHeader = PemesananHeader::find($id);
+            $updatePemesananHeader->no_pemesanan       = $request->no_pemesanan;
             $updatePemesananHeader->ship_to            = $request->ship_to;
             $updatePemesananHeader->delivery_deadline  = $request->delivery_deadline;
             $updatePemesananHeader->remark             = $request->remark;
@@ -192,6 +186,7 @@ class PemesananController extends Controller
                 }
     
                 $updatePemesananHeader = PemesananHeader::find($id);
+                $updatePemesananHeader->no_pemesanan       = $request->no_pemesanan;
                 $updatePemesananHeader->ship_to            = $request->ship_to;
                 $updatePemesananHeader->delivery_deadline  = $request->delivery_deadline;
                 $updatePemesananHeader->remark             = $request->remark;

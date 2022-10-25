@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+    Auth::routes();
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('/home');
-    });
 
     //Master Barang
     Route::get('/master-barang', [App\Http\Controllers\MasterBarangController::class, 'index'])->name('masterbarang');
@@ -46,16 +43,15 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/master-principle/delete/{id}', 'App\Http\Controllers\MasterPrincipleController@delete');
 
 
-    //Master Pemesanan
-    Route::get('/pemesanan', [App\Http\Controllers\PemesananController::class, 'index'])->name('pemesanan');
-    Route::get('/pemesanan/add', 'App\Http\Controllers\PemesananController@add');
-    Route::post('/pemesanan/store', 'App\Http\Controllers\PemesananController@store');
-    Route::get('/pemesanan/edit/{id}', 'App\Http\Controllers\PemesananController@add_detail');
-    Route::post('/pemesanan/store/{id}', 'App\Http\Controllers\PemesananController@store_detail');
-    Route::put('/pemesanan/update/{id}', 'App\Http\Controllers\PemesananController@update');
-    Route::put('/pemesanan/update/status/{id}', 'App\Http\Controllers\PemesananController@update_status');
-    Route::delete('/pemesanan/delete/{id}', 'App\Http\Controllers\PemesananController@delete');
-    Route::delete('/pemesanan/detail/delete/{id}', 'App\Http\Controllers\PemesananController@delete_detail');
+    //Master Pembelian
+    Route::get('/pembelian', [App\Http\Controllers\PembelianController::class, 'index'])->name('pembelian');
+    Route::get('/pembelian/add', 'App\Http\Controllers\PembelianController@add');
+    Route::post('/pembelian/store', 'App\Http\Controllers\PembelianController@store');
+    Route::get('/pembelian/edit/{id}', 'App\Http\Controllers\PembelianController@add_detail');
+    Route::put('/pembelian/update/{id}', 'App\Http\Controllers\PembelianController@update');
+    Route::put('/pembelian/update/status/{id}', 'App\Http\Controllers\PembelianController@update_status');
+    Route::delete('/pembelian/delete/{id}', 'App\Http\Controllers\PembelianController@delete');
+    Route::get('principle/request', [App\Http\Controllers\PembelianController::class, 'getDataPrinciple'])->name('principle.request');
 
     Route::post('/pemesanan_detail/store', 'App\Http\Controllers\PemesananController@storeDetail');
     Route::delete('/pemesanan_detail/delete/{id}', 'App\Http\Controllers\PemesananController@deleteDetail');
@@ -83,4 +79,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pengiriman/edit/{id}', 'App\Http\Controllers\PengirimanController@edit');
     Route::put('/pengiriman/update/{id}', 'App\Http\Controllers\PengirimanController@update');
     Route::delete('/pengiriman/delete/{id}', 'App\Http\Controllers\PengirimanController@delete');
-});
