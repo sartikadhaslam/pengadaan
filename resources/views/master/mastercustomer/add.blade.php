@@ -4,6 +4,7 @@
 <div class="">
     <div class="documentation-container">
         <div class="docs-sidebar">
+
             <div class="docs-content-area">
                 <div class="docs-list">
                     <h5>DASHBOARD</h5>
@@ -38,7 +39,6 @@
                     </ul>
                     @endif
                 </div>
-            </div>      
         </div>
 
         <div class="docs-container-content">
