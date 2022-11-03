@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeNoAntrianToPemesananHeaderTable extends Migration
+class CreatePengirimanDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class ChangeNoAntrianToPemesananHeaderTable extends Migration
      */
     public function up()
     {
-        Schema::table('pemesanan_header', function (Blueprint $table) {
-            $table->text('no_pemesanan')->nullable()->change();
+        Schema::create('pengiriman_detail', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +26,6 @@ class ChangeNoAntrianToPemesananHeaderTable extends Migration
      */
     public function down()
     {
-        Schema::table('pemesanan_header', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('pengiriman_detail');
     }
 }

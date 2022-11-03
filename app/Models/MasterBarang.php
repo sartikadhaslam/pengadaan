@@ -22,7 +22,7 @@ class MasterBarang extends Model
     public static function getMasterBarang()
     {
         $getMasterBarang = MasterBarang::orderBy('nama_barang', 'asc')
-        ->paginate(10);
+        ->paginate(5);
 
         return $getMasterBarang;
     }

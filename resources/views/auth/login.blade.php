@@ -4,7 +4,7 @@
 <div class="container pt-5 mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" style="padding-top:200px!important;">
+            <div class="card" style="padding-top:130px!important;">
                 <div class="card-header text-center"><h3>Login</h3></div>
 
                 <div class="card-body">

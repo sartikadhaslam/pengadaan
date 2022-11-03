@@ -26,7 +26,7 @@ class MasterCustomer extends Model
     public static function getMasterCustomer()
     {
         $getMasterCustomer = MasterCustomer::orderBy('nama_customer', 'asc')
-        ->paginate(10);
+        ->paginate(5);
 
         return $getMasterCustomer;
     }

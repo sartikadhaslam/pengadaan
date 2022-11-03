@@ -42,8 +42,18 @@ use Illuminate\Support\Facades\Route;
     Route::put('/master-principle/update/{id}', 'App\Http\Controllers\MasterPrincipleController@update');
     Route::delete('/master-principle/delete/{id}', 'App\Http\Controllers\MasterPrincipleController@delete');
 
-
-    //Master Pembelian
+    //Pemesanan
+    Route::get('/pemesanan', [App\Http\Controllers\PemesananController::class, 'index'])->name('pemesanan');
+    Route::get('/pemesanan/add', 'App\Http\Controllers\PemesananController@add');
+    Route::post('/pemesanan/store', 'App\Http\Controllers\PemesananController@store');
+    Route::get('/pemesanan/edit/{id}', 'App\Http\Controllers\PemesananController@add_detail');
+    Route::post('/pemesanan/store/{id}', 'App\Http\Controllers\PemesananController@store_detail');
+    Route::put('/pemesanan/update/{id}', 'App\Http\Controllers\PemesananController@update');
+    Route::put('/pemesanan/update/status/{id}', 'App\Http\Controllers\PemesananController@update_status');
+    Route::delete('/pemesanan/delete/{id}', 'App\Http\Controllers\PemesananController@delete');
+    Route::delete('/pemesanan/detail/delete/{id}', 'App\Http\Controllers\PemesananController@delete_detail');
+    
+    // Pembelian
     Route::get('/pembelian', [App\Http\Controllers\PembelianController::class, 'index'])->name('pembelian');
     Route::get('/pembelian/add', 'App\Http\Controllers\PembelianController@add');
     Route::post('/pembelian/store', 'App\Http\Controllers\PembelianController@store');
@@ -52,30 +62,24 @@ use Illuminate\Support\Facades\Route;
     Route::put('/pembelian/update/status/{id}', 'App\Http\Controllers\PembelianController@update_status');
     Route::delete('/pembelian/delete/{id}', 'App\Http\Controllers\PembelianController@delete');
     Route::get('principle/request', [App\Http\Controllers\PembelianController::class, 'getDataPrinciple'])->name('principle.request');
-
     Route::post('/pemesanan_detail/store', 'App\Http\Controllers\PemesananController@storeDetail');
     Route::delete('/pemesanan_detail/delete/{id}', 'App\Http\Controllers\PemesananController@deleteDetail');
-
-    //Master Pembelian
-    Route::get('/pembelian', [App\Http\Controllers\PembelianController::class, 'index'])->name('pembelian');
-    Route::get('/pembelian/add', 'App\Http\Controllers\PembelianController@add');
-    Route::post('/pembelian/store', 'App\Http\Controllers\PembelianController@store');
-    Route::get('/pembelian/edit/{id}', 'App\Http\Controllers\PembelianController@edit');
-    Route::put('/pembelian/update/{id}', 'App\Http\Controllers\PembelianController@update');
-    Route::delete('/pembelian/delete/{id}', 'App\Http\Controllers\PembelianController@delete');
+    Route::get('/pembelian/print/{id}', 'App\Http\Controllers\PembelianController@cetak_pdf');
 
     //Master Penerimaan
-    Route::get('/Penerimaan', [App\Http\Controllers\PenerimaanController::class, 'index'])->name('penerimaan');
-    Route::get('/Penerimaan/add', 'App\Http\Controllers\PenerimaanController@add');
-    Route::post('/Penerimaan/store', 'App\Http\Controllers\PenerimaanController@store');
-    Route::get('/Penerimaan/edit/{id}', 'App\Http\Controllers\PenerimaanController@edit');
-    Route::put('/Penerimaan/update/{id}', 'App\Http\Controllers\PenerimaanController@update');
-    Route::delete('/Penerimaan/delete/{id}', 'App\Http\Controllers\PenerimaanController@delete');
+    Route::get('/penerimaan', [App\Http\Controllers\PenerimaanController::class, 'index'])->name('penerimaan');
+    Route::get('/penerimaan/add', 'App\Http\Controllers\PenerimaanController@add');
+    Route::post('/penerimaan/store', 'App\Http\Controllers\PenerimaanController@store');
+    Route::get('/penerimaan/edit/{id}', 'App\Http\Controllers\PenerimaanController@add_detail');
+    Route::put('/penerimaan/update/{id}', 'App\Http\Controllers\PenerimaanController@update');
+    Route::put('/penerimaan/update/status/{id}', 'App\Http\Controllers\PenerimaanController@update_status');
+    Route::delete('/penerimaan/delete/{id}', 'App\Http\Controllers\PenerimaanController@delete');
 
     //Master Pengiriman
     Route::get('/pengiriman', [App\Http\Controllers\PengirimanController::class, 'index'])->name('pengiriman');
     Route::get('/pengiriman/add', 'App\Http\Controllers\PengirimanController@add');
     Route::post('/pengiriman/store', 'App\Http\Controllers\PengirimanController@store');
-    Route::get('/pengiriman/edit/{id}', 'App\Http\Controllers\PengirimanController@edit');
+    Route::get('/pengiriman/edit/{id}', 'App\Http\Controllers\PengirimanController@add_detail');
     Route::put('/pengiriman/update/{id}', 'App\Http\Controllers\PengirimanController@update');
+    Route::put('/pengiriman/update/status/{id}', 'App\Http\Controllers\PengirimanController@update_status');
     Route::delete('/pengiriman/delete/{id}', 'App\Http\Controllers\PengirimanController@delete');
