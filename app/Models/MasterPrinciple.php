@@ -25,7 +25,7 @@ class MasterPrinciple extends Model
     public static function getMasterPrinciple()
     {
         $getMasterPrinciple = MasterPrinciple::orderBy('nama_principle', 'asc')
-        ->paginate(10);
+        ->paginate(5);
 
         return $getMasterPrinciple;
     }

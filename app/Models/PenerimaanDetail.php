@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PembelianDetail extends Model
+class PenerimaanDetail extends Model
 {
     use HasFactory;
 
-    protected $table = 'pembelian_detail';
+    protected $table = 'penerimaan_detail';
 
     protected $fillable = [
-        'id_pembelian', 
+        'id_penerimaan', 
         'id_barang', 
         'nama_barang',
         'unit',
@@ -21,10 +21,10 @@ class PembelianDetail extends Model
         'total'
     ];
 
-    public static function delPembelianDetail($id)
+    public static function delPenerimaanDetail($id)
     {
-        $delPembelianDetailbyId = PembelianDetail::destroy($id);
+        $delPenerimaanDetailbyId = PenerimaanDetail::destroy($id);
 
-        return $delPembelianDetailbyId;
+        return $delPenerimaanDetailbyId;
     }
 }

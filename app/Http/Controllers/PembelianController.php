@@ -14,6 +14,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use File;
+use PDF;
 
 class PembelianController extends Controller
 {
@@ -41,11 +42,11 @@ class PembelianController extends Controller
                               ->join('master_principle', 'master_principle.id', 'pembelian_header.id_principle')
                               ->where('id_principle', $getMasterPrinciple->id)
                               ->where('status', '!=', 'Draft')
-                              ->get();
+                              ->paginate(5);
         }else{
         $pembelianHeader = PembelianHeader::select('pembelian_header.id', 'pembelian_header.no_pembelian', 'pembelian_header.tanggal_pembelian', 'master_principle.nama_principle as principle', 'pembelian_header.status')
                                     ->join('master_principle', 'master_principle.id', 'pembelian_header.id_principle')
-                                    ->get();
+                                    ->paginate(5);
         }
         $no = 1;
 
@@ -93,18 +94,13 @@ class PembelianController extends Controller
         $customer           = MasterCustomer::where('id', $pemesananHeader->id_customer)->first();
         $principle          = MasterPrinciple::where('id', $request->id_principle)->first();
         $pemesananDetail    = PemesananDetail::where('id_pemesanan', $pemesananHeader->id)->get();
-        $datapemesanan      = $no_pemesanan-$customer->nama_customer;
-        $dataprinciple      = $principle->kode_principle-$principle->nama_principle;
+        $datapemesanan      = $no_pemesanan.'-'.$customer->nama_customer;
+        $dataprinciple      = $principle->kode_principle.'-'.$principle->nama_principle;
 
         $no = 1;
         
-        $max = count($check);
-
-        if($max > 0){
-            $kode_pembelian = $no_pemesanan.'/'.'UK'.'/'.$customer->kode_customer.'/'.$bulan.'/'.$tahun;
-        }else{
-            $kode_pembelian = $no_pemesanan.'/'.'UK'.'/'.$customer->kode_customer.'/'.$bulan.'/'.$tahun;
-        } 
+        $kode_pembelian = $no_pemesanan.'/'.'UK'.'/'.$customer->kode_customer.'/'.$bulan.'/'.$tahun;
+        
 
         $storePembelianHeader = new PembelianHeader();
         $storePembelianHeader->no_pembelian       = $kode_pembelian;
@@ -120,14 +116,16 @@ class PembelianController extends Controller
         $id_header = $storePembelianHeader->id;
 
         foreach($pemesananDetail as $pemesananDetail){
+            $barang = MasterBarang::where('id', $pemesananDetail->id_barang)->first();
+
             $storePembelianDetail = new PembelianDetail();
             $storePembelianDetail->id_pembelian     = $id_header;
             $storePembelianDetail->id_barang        = $pemesananDetail->id_barang;
             $storePembelianDetail->nama_barang      = $pemesananDetail->nama_barang;
             $storePembelianDetail->unit             = $pemesananDetail->unit;
             $storePembelianDetail->qty              = $pemesananDetail->qty;
-            $storePembelianDetail->unit_price       = $pemesananDetail->unit_price;
-            $storePembelianDetail->total            = $pemesananDetail->total;
+            $storePembelianDetail->unit_price       = $barang->harga_beli;
+            $storePembelianDetail->total            = $pemesananDetail->qty*$barang->harga_beli;
             $storePembelianDetail->save();
         }
 
@@ -195,8 +193,25 @@ class PembelianController extends Controller
     public function delete($id)
     {
         $delPembelianHeader = PembelianHeader::delPembelianHeader($id);
-        $delPemesananDetail = PemesananDetail::delPemesananDetail($id);
+        $delPembelianDetail = PembelianDetail::delPembelianDetail($id);
 
         return redirect('/pembelian')->with('message', 'Data Pembelian berhasil dihapus!');
+    }
+
+    public function cetak_pdf($id)
+    {
+    	$pembelianHeader = PembelianHeader::find($id);
+        $pembelianDetail = PembelianDetail::select('pembelian_detail.id', 'pembelian_detail.id_pembelian', 'pembelian_detail.id_barang',  'pembelian_detail.nama_barang', 'pembelian_detail.unit', 'pembelian_detail.qty', 'pembelian_detail.unit_price', 'pembelian_detail.total' , 'master_barang.kode_barang')
+        ->join('master_barang', 'master_barang.id', 'pembelian_detail.id_barang')
+        ->where('id_pembelian',$id)->get();
+        $total = 0;
+        foreach($pembelianDetail as $val){
+            $total = $total+$val->total;
+        }
+        $masterPrinciple = MasterPrinciple::where('id',$pembelianHeader->id_principle)->first();
+        $no = 1 ;
+ 
+    	$pdf = PDF::loadview('transaksi.pembelian.pembelian_pdf',['total'=>$total, 'pembelianHeader'=>$pembelianHeader, 'pembelianDetail'=>$pembelianDetail, 'masterPrinciple'=> $masterPrinciple, 'no'=>$no]);
+    	return $pdf->stream('PO_Principle_'.$pembelianHeader->id.$pembelianHeader->created_at.'.pdf');
     }
 }

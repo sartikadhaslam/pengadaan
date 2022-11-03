@@ -43,59 +43,57 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Tambah Pembelian</h1>
+                <h1 id="getting-started" class="link-heading">Tambah Penerimaan</h1>
                 <hr/>
                 @if (session()->has('message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         {{ session('message') }}.
                     </div>
                 @endif
-                <form action="{{url('pembelian/update/'.$getPembelianHeader->id )}}" method="post" enctype="multipart/form-data">
+                <form action="{{url('penerimaan/update/'.$getPenerimaanHeader->id )}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="no_pembelian" class="form-label">Kode Pembelian</label>
-                                <input type="text" class="form-control" id="no_pembelian" name="no_pembelian" value="{{ $getPembelianHeader->no_pembelian }}" readonly>
+                                <input type="text" class="form-control" id="no_pembelian" name="no_pembelian" value="{{ $getPenerimaanHeader->no_pembelian }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="tanggal_pembelian" class="form-label">Tanggal Pembelian</label>
-                                <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian" value="{{ $getPembelianHeader->tanggal_pembelian }}" readonly>
+                                <label for="tanggal_penerimaan" class="form-label">Tanggal Penerimaan</label>
+                                <input type="date" class="form-control" id="tanggal_penerimaan" name="tanggal_penerimaan" value="{{ $getPenerimaanHeader->tanggal_penerimaan }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="id_principle" class="form-label">Principle</label>
-                                <select name="id_principle" id="id_principle" class="form-control" disabled>
-                                    @foreach($getMasterPrincipleAll as $getMasterPrincipleAll)
-                                    <option value="{{ $getMasterPrincipleAll->id }}" <?php if($getMasterPrincipleAll->id == $getPembelianHeader->id_principle){echo "selected";}?>>{{ $getMasterPrincipleAll->kode_principle }}-{{ $getMasterPrincipleAll->nama_principle }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="surat_tagihan" class="form-label">Surat Tagihan</label><br>
+                                <input type="file" id="surat_tagihan" name="surat_tagihan" accept=".pdf,.png,.jpg,.jpeg"><br><br>
+                                <div id="st_old">
+                                    <a href="{{asset('/uploads/'. $getPenerimaanHeader->surat_tagihan)}}" target="_blank"><span><i class="bi bi-paperclip"></i>{{ $getPenerimaanHeader->surat_tagihan }}</span></a>
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="alamat_principle" class="form-label">Alamat</label>
-                                <textarea class="form-control" id="alamat_principle" name="alamat_principle" value="{{ $getPembelianHeader->alamat_principle}}" readonly>{{ $getPembelianHeader->alamat_principle }}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="telepon_principle" class="form-label">Telepon</label>
-                                <input type="text" class="form-control" id="telepon_principle" name="telepon_principle" value="{{ $getPembelianHeader->telepon_principle }}" readonly>
+                                <label for="packing_list" class="form-label">Packing List</label><br>
+                                <input type="file" id="packing_list" name="packing_list" accept=".pdf,.png,.jpg,.jpeg"><br><br>
+                                <div id="pl_old">
+                                    <a href="{{asset('/uploads/'. $getPenerimaanHeader->packing_list)}}" target="_blank"><span><i class="bi bi-paperclip"></i>{{ $getPenerimaanHeader->packing_list }}</span></a>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="fax_principle" class="form-label">Fax</label>
-                                <input type="text" class="form-control" id="fax_principle" name="fax_principle"  value="{{ $getPembelianHeader->fax_principle }}" readonly>
+                                <label for="nama_pengirim" class="form-label">Nama Pengirim</label>
+                                <input type="text" class="form-control" id="nama_pengirim" name="nama_pengirim" value="{{ $getPenerimaanHeader->nama_pengirim }}">
                             </div>
                             <div class="mb-3">
-                                <label for="term_condition" class="form-label">Term Condition</label>
-                                <textarea class="form-control" id="editor" name="term_condition" value="{{ $getPembelianHeader->term_condition }}">{{ $getPembelianHeader->term_condition }}</textarea>
+                                <label for="hp_pengirim" class="form-label">HP Pengirim</label>
+                                <input type="text" class="form-control" id="hp_pengirim" name="hp_pengirim" value="{{ $getPenerimaanHeader->hp_pengirim }}">
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status (AUTO)</label>
-                                <input type="text" class="form-control" id="status" name="status" readonly value="{{ $getPembelianHeader->status }}">
+                                <input type="text" class="form-control" id="status" name="status" readonly value="{{ $getPenerimaanHeader->status }}">
                             </div>
                         </div>
                     </div>
-                    @if($getPembelianHeader->status == 'Draft')
+                    @if($getPenerimaanHeader->status == 'Diterima')
                     <br>
                     <button class="btn btn-sm btn-success ml-0">Update Header</button>
                     @endif
@@ -110,33 +108,29 @@
                         <th>Qty</th>
                         <th>Total</th>
                     </tr>
-                    @foreach($getPembelianDetail as $getPembelianDetail)
+                    @foreach($getPenerimaanDetail as $getPenerimaanDetail)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td>{{ $getPembelianDetail->nama_barang}}</td>
-                        <td>{{ number_format($getPembelianDetail->unit_price)}}</td>
-                        <td>{{ $getPembelianDetail->qty}}</td>
-                        <td>{{ number_format($getPembelianDetail->total) }}</td>
+                        <td>{{ $getPenerimaanDetail->nama_barang}}</td>
+                        <td>{{ number_format($getPenerimaanDetail->unit_price)}}</td>
+                        <td>{{ $getPenerimaanDetail->qty}}</td>
+                        <td>{{ number_format($getPenerimaanDetail->total) }}</td>
                     </tr>
                     @endforeach
                 </table>
                 <hr>
                 <div class="row">
                     <div class="d-inline">
-                        @if($getPembelianHeader->status == 'Draft')
-                        <form method="POST" action="/pembelian/update/status/{{ $getPembelianHeader->id }}" onsubmit="return validateFormAjukan()">
+                        @if($getPenerimaanHeader->status == 'Diterima')
+                        <form method="POST" action="/penerimaan/update/status/{{ $getPenerimaanHeader->id }}" onsubmit="return validateFormAjukan()">
                             @csrf
                             @method('PUT')
-                            <input type="text" name="status" id="status" value="ajukan" style="display:none;">
-                            <input type="submit" class="btn btn-sm btn-success" value="Ajukan Pembelian">
+                            <input type="submit" class="btn btn-sm btn-success" value="Update Selesai">
                         </form>
                         @endif
                     </div>
                     <div class="d-inline">
-                        <a href="{{url('/pembelian')}}" style="color:#ffffff;" type="cancel" class="btn btn-secondary">Kembali</a>
-                    </div>
-                    <div class="d-inline">
-                        <a href="{{url('/pembelian/print/'. $getPembelianHeader->id)}}" target="_blank" style="color:#ffffff;" type="cancel" class="btn btn-danger"><i class="bi bi-printer"></i> PO Principle</a>
+                        <a href="{{url('/penerimaan')}}" style="color:#ffffff;" type="cancel" class="btn btn-secondary">Kembali</a>
                     </div>
                 </div>
             </div>    

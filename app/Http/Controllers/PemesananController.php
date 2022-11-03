@@ -31,35 +31,19 @@ class PemesananController extends Controller
      */
     
     public function index(){
-<<<<<<< HEAD
+
         $role = Auth::user()->role;
         if($role == 'customer'){
-=======
-
->>>>>>> d107228e50362e897763603b55dab85b91b9ba0b
         $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
         $pemesananHeader    = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
                               ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
                               ->where('id_customer', $getMasterCustomer->id)
-                              ->paginate(10);
+                              ->paginate(5);
         }else{
         $pemesananHeader    = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.tanggal_pemesanan', 'master_customer.nama_customer as customer', 'pemesanan_header.delivery_deadline', 'pemesanan_header.status')
                               ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
                               ->where('status', '!=', 'Draft')
-<<<<<<< HEAD
-                              ->paginate(10);
-=======
-                              ->get();
-
-        $no = 1;
-        $role = Auth::user()->role;
-
-        
-        if($role == 'customer'){
-            $pemesananHeader = $getPemesananHeader; 
-        }else{
-            $pemesananHeader = $getPemesananHeaderAjukan; 
->>>>>>> d107228e50362e897763603b55dab85b91b9ba0b
+                              ->paginate(5);
         }
         $no = 1;
 
