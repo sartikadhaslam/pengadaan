@@ -102,6 +102,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $penerimaanHeader->links() !!}
             </div>    
         </div>  
 

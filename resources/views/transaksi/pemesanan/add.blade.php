@@ -85,13 +85,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="ship_to" class="form-label">Ship To</label>
-                            <input type="text" class="form-control" id="ship_to" name="ship_to">
+                            <input type="text" class="form-control" id="ship_to" name="ship_to" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="delivery_deadline" class="form-label">Delivery Deadline</label>
-                            <input type="date" class="form-control" id="delivery_deadline" name="delivery_deadline">
+                            <input type="date" class="form-control" id="delivery_deadline" name="delivery_deadline ">
                         </div>
                         <div class="mb-3">
                             <label for="payment_terms" class="form-label">Payment Terms</label>

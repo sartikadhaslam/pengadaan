@@ -15,6 +15,13 @@ class CreatePengirimanDetailTable extends Migration
     {
         Schema::create('pengiriman_detail', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_pengiriman');
+            $table->integer('id_barang');
+            $table->text('nama_barang');
+            $table->string('unit', 5);
+            $table->integer('qty');
+            $table->decimal('unit_price', 16,2);
+            $table->decimal('total', 16,2);
             $table->timestamps();
         });
     }

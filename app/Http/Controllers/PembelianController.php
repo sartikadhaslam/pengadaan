@@ -189,7 +189,6 @@ class PembelianController extends Controller
         
     }
 
-
     public function delete($id)
     {
         $delPembelianHeader = PembelianHeader::delPembelianHeader($id);
