@@ -114,6 +114,7 @@
                         </tr>
                         @endforeach
                     </tbody>
+                    {!! $pembelianHeader->links() !!}
                 </table>
             </div>    
         </div>  

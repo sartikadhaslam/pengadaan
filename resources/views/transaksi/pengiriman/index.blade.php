@@ -43,16 +43,16 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 class="link-heading">Pemesanan oleh Customer</h1>
+                <h1 class="link-heading">Pengiriman ke Customer</h1>
                 <hr/>
                 @if (session()->has('message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         {{ session('message') }}.
                     </div>
                 @endif
-                @if($role == 'customer')
+                @if($role == 'pengadaan')
                 <div class="pb-3">
-                    <a href="{{url('/pemesanan/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
+                    <a href="{{url('/pengiriman/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
                 @endif
                 <div class="col-md-4 float-right">
@@ -63,28 +63,28 @@
                         <tr>
                             <th scope="col"  width="5%">No</th>
                             <th scope="col"  width="13%">Kode Pemesanan</th>
-                            <th scope="col"  width="13%">Tanggal Pemesanan</th>
+                            <th scope="col"  width="13%">Tanggal Pengiriman </th>
                             <th scope="col"  width="33%">Customer</th>
                             <th scope="col"  width="10%">Status</th>
                             <th scope="col"  width="22%">Action</th>
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        @foreach($pemesananHeader as $pemesanan)
+                        @foreach($pengirimanHeader as $pengiriman)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{$pemesanan->no_pemesanan}}</td>
-                            <td>{{$pemesanan->tanggal_pemesanan}}</td>
-                            <td>{{$pemesanan->customer}}</td>
-                            <td>{{$pemesanan->status}}</td>
+                            <td>{{$pengiriman->no_pemesanan}}</td>
+                            <td>{{$pengiriman->tanggal}}</td>
+                            <td>{{$pengiriman->nama_customer}}</td>
+                            <td>{{$pengiriman->status}}</td>
                             <td>
-                            @if($pemesanan->status == 'Draft')
+                            @if($pengiriman->status == 'Dikirim')
                                 <div class="row">
                                     <div class="d-inline">
-                                        <a class="btn btn-sm btn-success text-white" href="/pemesanan/edit/{{ $pemesanan->id }}">Edit</a>
+                                        <a class="btn btn-sm btn-success text-white" href="/pengiriman/edit/{{ $pengiriman->id }}">Edit</a>
                                     </div>
                                     <div class="d-inline">
-                                        <form method="POST" action="/pemesanan/delete/{{ $pemesanan->id }}" onsubmit="return validateForm()">
+                                        <form method="POST" action="/pengiriman/delete/{{ $pengiriman->id }}" onsubmit="return validateForm()">
                                             @csrf
                                             @method('DELETE')
                                             <input type="submit" class="btn btn-sm btn-danger" value="Hapus">
@@ -94,20 +94,8 @@
                             @endif
                             <div class="row">
                                     <div class="d-inline">
-                                    @if($pemesanan->status != 'Draft')
-                                        <a class="btn btn-sm btn-secondary text-white" href="/pemesanan/edit/{{ $pemesanan->id }}">View</a>
-                                    @endif
-                                    </div>
-                                    <div class="d-inline">
-                                    @if($role != 'customer')
-                                    <form method="POST" action="/pemesanan/update/status/{{ $pemesanan->id }}" onsubmit="return validateFormAjukan()">
-                                        @csrf
-                                        @method('PUT')
-                                        <input type="text" name="status" id="status" value="approve" style="display:none;">
-                                        @if($pemesanan->status == 'Ajukan Baru')
-                                        <input type="submit" class="btn btn-sm btn-success" value="Approve">
-                                        @endif
-                                    </form>
+                                    @if($pengiriman->status == 'Selesai')
+                                        <a class="btn btn-sm btn-secondary text-white" href="/pengiriman/edit/{{ $pengiriman->id }}">View</a>
                                     @endif
                                     </div>
                                 </div>
@@ -116,7 +104,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {!! $pemesananHeader->links() !!}
+                {!! $pengirimanHeader->links() !!}
             </div>    
         </div>  
 

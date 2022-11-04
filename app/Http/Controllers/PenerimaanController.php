@@ -59,6 +59,7 @@ class PenerimaanController extends Controller
         
         $pembelianHeader = PembelianHeader::select('pembelian_header.id', 'pembelian_header.no_pembelian', 'pembelian_header.id_principle', 'pembelian_header.tanggal_pembelian', 'master_principle.nama_principle as principle', 'pembelian_header.status')
                                     ->join('master_principle', 'master_principle.id', 'pembelian_header.id_principle')
+                                    ->where('pembelian_header.status', 'Approve')
                                     ->get();
         $commandData = [
             'getMasterPrincipleAll' => $getMasterPrincipleAll,

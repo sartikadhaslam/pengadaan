@@ -78,8 +78,11 @@ use Illuminate\Support\Facades\Route;
     //Master Pengiriman
     Route::get('/pengiriman', [App\Http\Controllers\PengirimanController::class, 'index'])->name('pengiriman');
     Route::get('/pengiriman/add', 'App\Http\Controllers\PengirimanController@add');
+    Route::get('/pemesanan/request', [App\Http\Controllers\PengirimanController::class, 'getDataPemesanan'])->name('pemesanan.request');
     Route::post('/pengiriman/store', 'App\Http\Controllers\PengirimanController@store');
     Route::get('/pengiriman/edit/{id}', 'App\Http\Controllers\PengirimanController@add_detail');
     Route::put('/pengiriman/update/{id}', 'App\Http\Controllers\PengirimanController@update');
     Route::put('/pengiriman/update/status/{id}', 'App\Http\Controllers\PengirimanController@update_status');
     Route::delete('/pengiriman/delete/{id}', 'App\Http\Controllers\PengirimanController@delete');
+    Route::get('/pembelian/sj/{id}', 'App\Http\Controllers\PengirimanController@cetak_sj');
+    Route::get('/pembelian/in/{id}', 'App\Http\Controllers\PengirimanController@cetak_in');

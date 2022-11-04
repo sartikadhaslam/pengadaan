@@ -15,6 +15,16 @@ class CreatePengirimanHeaderTable extends Migration
     {
         Schema::create('pengiriman_header', function (Blueprint $table) {
             $table->id();
+            $table->text('no_pemesanan');
+            $table->date('tanggal');
+            $table->integer('id_customer');
+            $table->text('no_surat_jalan');
+            $table->text('no_invoice');
+            $table->text('delivery_to');
+            $table->integer('payment_terms');
+            $table->text('gross_weight');
+            $table->text('dimensi');
+            $table->text('status');
             $table->timestamps();
         });
     }
