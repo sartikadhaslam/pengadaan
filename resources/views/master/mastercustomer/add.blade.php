@@ -14,9 +14,10 @@
                     @if(Auth::user()->role == 'pengadaan')
                     <h5>MASTER</h5>
                     <ul>
-                        <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
-                        <li><a href="{{url('/master-customer')}}" class="active">Master Customer</a></li>
+                        <li><a href="{{url('/master-barang')}}" class="active">Master Barang</a></li>
+                        <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
+                        <li><a href="{{url('/master-user')}}">Master User</a></li>
                     </ul>
                     @endif
                     <h5>TRANSAKSI</h5>

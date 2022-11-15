@@ -42,6 +42,14 @@ use Illuminate\Support\Facades\Route;
     Route::put('/master-principle/update/{id}', 'App\Http\Controllers\MasterPrincipleController@update');
     Route::delete('/master-principle/delete/{id}', 'App\Http\Controllers\MasterPrincipleController@delete');
 
+     //Master User
+     Route::get('/master-user', [App\Http\Controllers\UserController::class, 'index'])->name('masterbarang');
+     Route::get('/master-user/add', 'App\Http\Controllers\UserController@add');
+     Route::post('/master-user/store', 'App\Http\Controllers\UserController@store');
+     Route::get('/master-user/edit/{id}', 'App\Http\Controllers\UserController@edit');
+     Route::put('/master-user/update/{id}', 'App\Http\Controllers\UserController@update');
+     Route::delete('/master-user/delete/{id}', 'App\Http\Controllers\UserController@delete');
+
     //Pemesanan
     Route::get('/pemesanan', [App\Http\Controllers\PemesananController::class, 'index'])->name('pemesanan');
     Route::get('/pemesanan/add', 'App\Http\Controllers\PemesananController@add');

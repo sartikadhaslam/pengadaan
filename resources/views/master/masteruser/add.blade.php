@@ -15,6 +15,7 @@
                         <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
                         <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
+                        <li><a href="{{url('/master-user')}}">Master User</a></li>
                     </ul>
                     
                     <h5>TRANSAKSI</h5>
@@ -42,40 +43,37 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Tambah Master Principle</h1>
+                <h1 id="getting-started" class="link-heading">Tambah Master User</h1>
                 <hr/>
-                <form action="{{url('master-principle/store')}}" method="post">
+                <form action="{{url('master-user/store')}}" method="post">
                 @csrf
                     <div class="mb-3">
-                        <label for="nama_principle" class="form-label">Nama Principle</label>
-                        <input type="text" class="form-control" id="nama_principle" name="nama_principle">
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat</label>
-                        <textarea class="form-control" id="alamat" name="alamat"></textarea>
+                        <label for="name" class="form-label">Nama User</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="no_telp" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" id="no_telp" name="no_telp" maxlength="13" >
+                        <label for="role" class="form-label">Role</label>
+                        <select name="role" id="role"  class="form-control" required>
+                            <option>--Pilih Role--</option>
+                            <option value="pengadaan">Bagian Pengadaan</option>
+                            <option value="customer">Customer</option>
+                            <option value="principle">Principle</option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="fax" class="form-label">Nomor Fax</label>
-                        <input type="text" class="form-control" id="fax" name="fax">
-                    </div>
-                    <div class="mb-3">
-                        <label for="nama_pic" class="form-label">Nama PIC</label>
-                        <input type="text" class="form-control" id="nama_pic" name="nama_pic">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     <div class="mb-3">
                         <label for="jabatan_pic" class="form-label">Jabatan PIC</label>
-                        <input type="text" class="form-control" id="jabatan_pic" name="jabatan_pic">
+                        <input id="password" class="form-control" type="password" name="password_confirmation" required>
                     </div>
                     <button type="submit" class="btn btn-success">Simpan</button>
-                    <button type="cancel" class="btn btn-danger">Batal</button>
+                    <a href="{{url('/master-user')}}" style="color:#ffffff;" type="cancel" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>    
         </div>  
