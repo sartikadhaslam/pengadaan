@@ -42,4 +42,49 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function getMasterUser()
+    {
+        $getMasterUser = User::orderBy('name', 'asc')
+        ->paginate(5);
+
+        return $getMasterUser;
+    }
+
+    public static function getMasterUserbyId($id)
+    {
+        $getMasterUserbyId = User::findOrFail($id);
+
+        return $getMasterUserbyId;
+    }
+
+    public static function storeMasterUser($name, $email, $password, $role)
+    {        
+        $storeMasterUser = new User();
+        $storeMasterUser->name      = $name;
+        $storeMasterUser->email     = $email;
+        $storeMasterUser->password  = $password;
+        $storeMasterUser->role      = $role;
+        $storeMasterUser->save();
+
+        return $storeMasterUser;
+    }
+
+    public static function updateMasterUser($id, $name, $email, $role)
+    {
+        $updateMasterUser = User::find($id);
+        $updateMasterUser->name      = $name;
+        $updateMasterUser->email     = $email;
+        $updateMasterUser->role      = $role;
+        $updateMasterUser->save();
+
+        return $updateMasterUser;
+    }
+
+    public static function delMasterUserbyId($id)
+    {
+        $delMasterUserbyId = User::destroy($id);
+
+        return $delMasterUserbyId;
+    }
 }

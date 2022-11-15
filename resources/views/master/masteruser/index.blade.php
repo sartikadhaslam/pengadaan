@@ -15,6 +15,7 @@
                         <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
                         <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
+                        <li><a href="{{url('/master-user')}}">Master User</a></li>
                     </ul>
                     
                     <h5>TRANSAKSI</h5>
@@ -42,7 +43,7 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 class="link-heading">Master Principle</h1>
+                <h1 class="link-heading">Master User</h1>
                 <hr/>
                 @if (session()->has('message'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -51,7 +52,7 @@
                     </div>
                 @endif
                 <div class="pb-3">
-                    <a href="{{url('/master-principle/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
+                    <a href="{{url('/master-user/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
                 <div class="col-md-4 float-right">
                     <input class="form-control" id="myInput" type="text" placeholder="Cari.."><br>
@@ -60,28 +61,26 @@
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Nama Principle</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">No Telepon</th>
-                            <th scope="col">Nama PIC</th>
+                            <th scope="col">Nama User</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        @foreach($getMasterPrinciple as $masterPrinciple)
+                        @foreach($getMasterUser as $masterUser)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{$masterPrinciple->nama_principle}}</td>
-                            <td>{{$masterPrinciple->alamat}}</td>
-                            <td>{{$masterPrinciple->no_telp}}</td>
-                            <td>{{$masterPrinciple->nama_pic}}</td>
+                            <td>{{$masterUser->name}}</td>
+                            <td>{{$masterUser->email}}</td>
+                            <td>{{$masterUser->role}}</td>
                             <td>
                                 <div class="row">
                                     <div class="d-inline">
-                                        <a class="btn btn-sm btn-success text-white" href="/master-principle/edit/{{ $masterPrinciple->id }}">Edit</a>
+                                        <a class="btn btn-sm btn-success text-white" href="/master-user/edit/{{ $masterUser->id }}">Edit</a>
                                     </div>
                                     <div class="d-inline">
-                                        <form method="POST" action="/master-principle/delete/{{ $masterPrinciple->id }}" onsubmit="return validateForm()">
+                                        <form method="POST" action="/master-user/delete/{{ $masterUser->id }}" onsubmit="return validateForm()">
                                             @csrf
                                             @method('DELETE')
                                             <input type="submit" class="btn btn-sm btn-danger" value="Hapus">
@@ -93,7 +92,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {!! $getMasterPrinciple->links() !!}
+                {!! $getMasterUser->links() !!}
             </div>    
         </div>  
 

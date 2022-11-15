@@ -15,6 +15,7 @@
                         <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
                         <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
+                        <li><a href="{{url('/master-user')}}">Master User</a></li>
                     </ul>
                     
                     <h5>TRANSAKSI</h5>
@@ -42,41 +43,30 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Ubah Master Principle</h1>
+                <h1 id="getting-started" class="link-heading">Ubah Master User</h1>
                 <hr/>
-                <form action="/master-principle/update/{{ $getMasterPrinciplebyId->id }}" method="post">
+                <form action="/master-user/update/{{ $getMasterUserbyId->id }}" method="post">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="nama_principle" class="form-label">Nama Principle</label>
-                        <input type="text" class="form-control" id="nama_principle" name="nama_principle" value="{{ $getMasterPrinciplebyId->nama_principle }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat</label>
-                        <textarea class="form-control" id="alamat" name="alamat">{{ $getMasterPrinciplebyId->alamat }}</textarea>
+                        <label for="name" class="form-label">Nama User</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ $getMasterUserbyId->name }}">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="email" value="{{ $getMasterPrinciplebyId->email }}">
+                        <textarea class="form-control" id="email" name="email">{{ $getMasterUserbyId->email }}</textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="no_telp" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" id="no_telp" name="no_telp" maxlength="13"  value="{{ $getMasterPrinciplebyId->no_telp }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="fax" class="form-label">Nomor Fax</label>
-                        <input type="text" class="form-control" id="fax" name="fax" value="{{ $getMasterPrinciplebyId->fax }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="nama_pic" class="form-label">Nama PIC</label>
-                        <input type="text" class="form-control" id="nama_pic" name="nama_pic" value="{{ $getMasterPrinciplebyId->nama_pic }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="jabatan_pic" class="form-label">Jabatan PIC</label>
-                        <input type="text" class="form-control" id="jabatan_pic" name="jabatan_pic"  value="{{ $getMasterPrinciplebyId->jabatan_pic }}">
+                        <label for="role" class="form-label">Role</label>
+                        <select name="role" id="role"  class="form-control">
+                            <option>--Pilih Role--</option>
+                            <option value="pengadaan" <?php if($getMasterUserbyId->role == 'pengadaan'){echo 'selected';}?>>Bagian Pengadaan</option>
+                            <option value="customer" <?php if($getMasterUserbyId->role == 'customer'){echo 'selected';}?>>Customer</option>
+                            <option value="principle" <?php if($getMasterUserbyId->role == 'principle'){echo 'selected';}?>>Principle</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-success">Ubah</button>
-                    <button type="cancel" class="btn btn-danger">Batal</button>
+                    <a href="{{url('/master-user')}}" style="color:#ffffff;" type="cancel" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>    
         </div>  
