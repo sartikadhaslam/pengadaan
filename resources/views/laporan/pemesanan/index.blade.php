@@ -58,7 +58,7 @@
                 </div>
                 @if(count($data) > 0)
                 <div class="pb-3 pt-5">
-                    <h5 class="text-center pb-5">Laporan Pemesanan {{ $tanggal_awal }} - {{ $tanggal_akhir }}</h5>\
+                    <h5 class="text-center pb-5">Laporan Pemesanan {{ $tanggal_awal }} s/d {{ $tanggal_akhir }}</h5>
                 </div>
                 <div class="col-md-6 no-print pl-0">
                     <button class="btn btn-danger ml-0" onclick="window.print()">

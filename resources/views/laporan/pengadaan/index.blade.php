@@ -46,7 +46,7 @@
         <div class="docs-container-content">
             <div class="docs-content-area">
                 <div class="no-print">
-                    <h1 class="link-heading">Laporan Pemesanan</h1>
+                    <h1 class="link-heading">Laporan Pengadaan</h1>
                     <hr/>
                     <form class="form-inline" action="" method="get">
                         <label for="tanggal_awal" class="mr-sm-2">Tanggal Akhir:</label>
@@ -58,7 +58,7 @@
                 </div>
                 @if(count($data) > 0)
                 <div class="pb-3 pt-5">
-                    <h5 class="text-center pb-5">Laporan Pemesanan {{ $tanggal_awal }} - {{ $tanggal_akhir }}</h5>
+                    <h5 class="text-center pb-5">Laporan Pengadaan {{ $tanggal_awal }} s/d {{ $tanggal_akhir }}</h5>
                 </div>
                 <div class="col-md-6 no-print pl-0">
                     <button class="btn btn-danger ml-0" onclick="window.print()">
@@ -69,23 +69,25 @@
                     <input class="form-control no-print" id="myInput" type="text" placeholder="Cari.."><br>
                 </div>
                 <br>
-                <table id="example" class="display nowrap" style="width:100%">
+                <table id="example" class="table" style="width:100%">
                     <thead>
                         <tr>
-                            <th scope="col" class="align-middle" width="5%">No</th>
-                            <th scope="col" class="align-middle" width="15%">Kode Pemesanan</th>
-                            <th scope="col" class="align-middle" width="20%">Tanggal Pemesanan</th>
-                            <th scope="col" class="align-middle" width="50%">Customer</th>
-                            <th scope="col" class="align-middle" width="10%">Status</th>
+                            <th scope="col" class="align-middle text-center" width="5%">No</th>
+                            <th scope="col" class="align-middle text-center" width="17%">Kode Pembelian</th>
+                            <th scope="col" class="align-middle text-center" width="17%">Tanggal Pembelian</th>
+                            <th scope="col" class="align-middle text-center" width="17%">Tanggal Penerimaan</th>
+                            <th scope="col" class="align-middle text-center" width="34%">Principle</th>
+                            <th scope="col" class="align-middle text-center" width="10%">Status</th>
                         </tr>
                     </thead>
                     <tbody id="myTable">
                         @foreach($data as $datas)
                             <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $datas->no_pemesanan }}</td>
-                                <td>{{ $datas->tanggal_pemesanan }}</td>
-                                <td>{{ $datas->nama_customer }}</td>
+                                <td class="text-center">{{ $no++ }}</td>
+                                <td>{{ $datas->no_pembelian }}</td>
+                                <td class="text-center">{{ $datas->tanggal_pembelian }}</td>
+                                <td class="text-center">{{ $datas->tanggal_penerimaan }}</td>
+                                <td>{{ $datas->nama_principle }}</td>
                                 <td>{{ $datas->status }}</td>
                             </tr>
                         @endforeach
