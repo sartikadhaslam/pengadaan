@@ -94,3 +94,9 @@ use Illuminate\Support\Facades\Route;
     Route::delete('/pengiriman/delete/{id}', 'App\Http\Controllers\PengirimanController@delete');
     Route::get('/pembelian/sj/{id}', 'App\Http\Controllers\PengirimanController@cetak_sj');
     Route::get('/pembelian/in/{id}', 'App\Http\Controllers\PengirimanController@cetak_in');
+
+    //Laporan Pemesanan
+    Route::get('/laporan-pemesanan', 'App\Http\Controllers\HomeController@laporan_pemesanan');
+
+    //Laporan Pengadaan
+    Route::get('/laporan-pengadaan', 'App\Http\Controllers\HomeController@laporan_pengadaan');

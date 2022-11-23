@@ -14,13 +14,14 @@
                     @if(Auth::user()->role == 'pengadaan')
                     <h5>MASTER</h5>
                     <ul>
-                        <li><a href="{{url('/master-barang')}}" class="active">Master Barang</a></li>
-                        <li><a href="{{url('/master-customer')}}">Master Customer</a></li>
+                        <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
+                        <li><a href="{{url('/master-customer')}}" class="active">Master Customer</a></li>
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
                         <li><a href="{{url('/master-user')}}">Master User</a></li>
                     </ul>
                     @endif
                     <h5>TRANSAKSI</h5>
+                    
                     <ul>
                     @if(Auth::user()->role != 'principle')
                         <li><a href="{{url('/pemesanan')}}">Pemesanan oleh Customer</a></li>
@@ -35,16 +36,17 @@
                     <h5>LAPORAN</h5>
 
                     <ul>
-                        <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
-                        <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
+                        <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pemesanan</a></li>
+                        <li><a href="{{url('/laporan-pengadaan')}}">Laporan Pengadaan</a></li>
                     </ul>
                     @endif
                 </div>
+            </div>      
         </div>
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Tambah Master Customer</h1>
+                <h1 id="getting-started" class="link-heading">Tambah Master Barang</h1>
                 <hr/>
                 <form action="{{url('master-customer/store')}}" method="post">
                 @csrf

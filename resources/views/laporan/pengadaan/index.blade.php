@@ -4,12 +4,14 @@
 <div class="">
     <div class="documentation-container">
         <div class="docs-sidebar">
+
             <div class="docs-content-area">
                 <div class="docs-list">
                     <h5>DASHBOARD</h5>
                     <ul>
                         <li><a href="{{url('/')}}">Dashboard</a></li>
                     </ul>
+                    @if(Auth::user()->role == 'pengadaan')
                     <h5>MASTER</h5>
                     <ul>
                         <li><a href="{{url('/master-barang')}}">Master Barang</a></li>
@@ -17,7 +19,7 @@
                         <li><a href="{{url('/master-principle')}}">Master Principle</a></li>
                         <li><a href="{{url('/master-user')}}">Master User</a></li>
                     </ul>
-                    
+                    @endif
                     <h5>TRANSAKSI</h5>
                     <ul>
                     @if(Auth::user()->role != 'principle')
@@ -34,7 +36,7 @@
 
                     <ul>
                         <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pemesanan</a></li>
-                        <li><a href="{{url('/laporan-pengadaan')}}">Laporan Pengadaan</a></li>
+                        <li><a href="{{url('/laporan-pengadaan')}}"  class="active">Laporan Pengadaan</a></li>
                     </ul>
                     @endif
                 </div>
@@ -43,59 +45,55 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 class="link-heading">Master User</h1>
-                <hr/>
-                @if (session()->has('message'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        {{ session('message') }}.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                <div class="pb-3">
-                    <a href="{{url('/master-user/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
+                <div class="no-print">
+                    <h1 class="link-heading">Laporan Pemesanan</h1>
+                    <hr/>
+                    <form class="form-inline" action="" method="get">
+                        <label for="tanggal_awal" class="mr-sm-2">Tanggal Akhir:</label>
+                        <input type="date" class="form-control mb-2 mr-sm-2" id="email" name="tanggal_awal">
+                        <label for="tanggal_akhir" class="mr-sm-2">Tanggal Awal:</label>
+                        <input type="date" class="form-control mb-2 mr-sm-2" id="pwd" name="tanggal_akhir">
+                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    </form>
+                </div>
+                @if(count($data) > 0)
+                <div class="pb-3 pt-5">
+                    <h5 class="text-center pb-5">Laporan Pemesanan {{ $tanggal_awal }} - {{ $tanggal_akhir }}</h5>
+                </div>
+                <div class="col-md-6 no-print pl-0">
+                    <button class="btn btn-danger ml-0" onclick="window.print()">
+                        <i class='fas fa-print'></i> PRINT
+                    </button>
                 </div>
                 <div class="col-md-4 float-right">
-                    <input class="form-control" id="myInput" type="text" placeholder="Cari.."><br>
+                    <input class="form-control no-print" id="myInput" type="text" placeholder="Cari.."><br>
                 </div>
-                <table class="table">
+                <br>
+                <table id="example" class="display nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama User</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" class="align-middle" width="5%">No</th>
+                            <th scope="col" class="align-middle" width="15%">Kode Pemesanan</th>
+                            <th scope="col" class="align-middle" width="20%">Tanggal Pemesanan</th>
+                            <th scope="col" class="align-middle" width="50%">Customer</th>
+                            <th scope="col" class="align-middle" width="10%">Status</th>
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        @foreach($getMasterUser as $masterUser)
-                        <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{$masterUser->name}}</td>
-                            <td>{{$masterUser->email}}</td>
-                            <td>{{$masterUser->role}}</td>
-                            <td>
-                                <div class="row">
-                                    <div class="d-inline">
-                                        <a class="btn btn-sm btn-success text-white" href="/master-user/edit/{{ $masterUser->id }}">Edit</a>
-                                    </div>
-                                    <div class="d-inline">
-                                        <form method="POST" action="/master-user/delete/{{ $masterUser->id }}" onsubmit="return validateForm()">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="submit" class="btn btn-sm btn-danger" value="Hapus">
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach($data as $datas)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $datas->no_pemesanan }}</td>
+                                <td>{{ $datas->tanggal_pemesanan }}</td>
+                                <td>{{ $datas->nama_customer }}</td>
+                                <td>{{ $datas->status }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {!! $getMasterUser->links() !!}
+                @endif
             </div>    
         </div>  
-
     </div>
 </div>
 <script type="text/javascript">
