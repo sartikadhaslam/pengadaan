@@ -34,8 +34,8 @@
                     <h5>LAPORAN</h5>
 
                     <ul>
-                        <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
-                        <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
+                        <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pemesanan</a></li>
+                        <li><a href="{{url('/laporan-pengadaan')}}">Laporan Pengadaan</a></li>
                     </ul>
                     @endif
                 </div>
@@ -98,4 +98,12 @@
 
     </div>
 </div>
+<script type="text/javascript">
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+</script>
 @endsection

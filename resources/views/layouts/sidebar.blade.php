@@ -24,7 +24,7 @@
 
         <ul>
             <li><a href="{{url('/laporan-pemesanan')}}">Laporan Pengadaan</a></li>
-            <li><a href="{{url('/laporan-pengiriman')}}">Laporan Pengiriman</a></li>
+            <li><a href="{{url('/laporan-pengadaan')}}">laporan pengadaan</a></li>
         </ul>
     </div>
 </div>

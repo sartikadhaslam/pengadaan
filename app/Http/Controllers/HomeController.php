@@ -85,11 +85,40 @@ class HomeController extends Controller
             'pemesananKiri' => $pemesananKiri,
             'pembelian'     => $pembelian,
             'pemesanan'     => $pemesanan,
-            'role' => $role,
-            'month' => $month,
-            'year' => $year
+            'role'          => $role,
+            'month'         => $month,
+            'year'          => $year
         ];
 
         return view('home', $commandData);
+    }
+
+    public function laporan_pemesanan(Request $request){
+        $data = [];
+        $no = 1;
+        
+        if($request->tanggal_awal != null && $request->tanggal_akhir != null){
+            $data = PemesananHeader::select('pemesanan_header.tanggal_pemesanan', 'pengiriman_header.tanggal', 'pemesanan_header.no_pemesanan', 'master_customer.nama_customer', 'pemesanan_header.status')
+            ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
+            ->leftjoin('pengiriman_header', 'pengiriman_header.no_pemesanan', 'pemesanan_header.no_pemesanan')
+            ->whereBetween('pemesanan_header.tanggal_pemesanan', [$request->tanggal_awal, $request->tanggal_akhir])
+            ->orderBy('pemesanan_header.tanggal_pemesanan', 'asc')
+            ->get();
+        }
+        $commandData = [
+            'data'          => $data,
+            'no'            => $no,
+            'tanggal_awal'  => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
+        ];
+
+        return view('laporan.pemesanan.index', $commandData);
+    }
+
+    public function laporan_pengadaan(){
+        $commandData = [
+        ];
+
+        return view('laporan.pengadaan.index', $commandData);
     }
 }
