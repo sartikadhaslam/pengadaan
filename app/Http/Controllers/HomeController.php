@@ -115,8 +115,23 @@ class HomeController extends Controller
         return view('laporan.pemesanan.index', $commandData);
     }
 
-    public function laporan_pengadaan(){
+    public function laporan_pengadaan(Request $request){
+        $data = [];
+        $no = 1;
+        
+        if($request->tanggal_awal != null && $request->tanggal_akhir != null){
+            $data = PembelianHeader::select('pembelian_header.tanggal_pembelian', 'penerimaan_header.tanggal_penerimaan', 'pembelian_header.no_pembelian', 'master_principle.nama_principle', 'pembelian_header.status')
+            ->join('master_principle', 'master_principle.id', 'pembelian_header.id_principle')
+            ->leftjoin('penerimaan_header', 'penerimaan_header.no_pembelian', 'pembelian_header.no_pembelian')
+            ->whereBetween('pembelian_header.tanggal_pembelian', [$request->tanggal_awal, $request->tanggal_akhir])
+            ->orderBy('pembelian_header.tanggal_pembelian', 'asc')
+            ->get();
+        }
         $commandData = [
+            'data'          => $data,
+            'no'            => $no,
+            'tanggal_awal'  => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
         ];
 
         return view('laporan.pengadaan.index', $commandData);
