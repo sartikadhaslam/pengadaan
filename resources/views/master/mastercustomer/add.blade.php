@@ -46,7 +46,7 @@
 
         <div class="docs-container-content">
             <div class="docs-content-area">
-                <h1 id="getting-started" class="link-heading">Tambah Master Barang</h1>
+                <h1 id="getting-started" class="link-heading">Tambah Master Customer</h1>
                 <hr/>
                 <form action="{{url('master-customer/store')}}" method="post">
                 @csrf
