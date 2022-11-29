@@ -39,39 +39,41 @@ class HomeController extends Controller
         $pembelianKiri = [];
 
         if($role == 'pengadaan'){
-            $pemesananBaru = PemesananHeader::where('status', 'Ajukan Baru')->get();
-            $pemesananKiri = PemesananHeader::where('status', 'Proses')->get();
-            $pemesanan = PemesananHeader::select('tanggal_pemesanan', DB::RAW('COUNT(id) as id'))->groupBy('tanggal_pemesanan')->get();
+            $pemesananBaru = PemesananHeader::where('status', 'Ajukan Baru')->whereMonth('created_at', date('m'))->get();
+            $pemesananKiri = PemesananHeader::where('status', 'Proses')->whereMonth('created_at', date('m'))->get();
+            $pemesanan = PemesananHeader::select('tanggal_pemesanan', DB::RAW('COUNT(id) as id'))->groupBy('tanggal_pemesanan')->whereMonth('created_at', date('m'))->get();
         }elseif($role == 'customer'){
-            $pembelian = PembelianHeader::select('tanggal_pembelian', DB::RAW('COUNT(id) as id'))->groupBy('tanggal_pembelian')->get();
+            $pembelian = PembelianHeader::select('tanggal_pembelian', DB::RAW('COUNT(id) as id'))->whereMonth('created_at', date('m'))->groupBy('tanggal_pembelian')->get();
             $getMasterCustomer  = MasterCustomer::where('email', Auth::user()->email)->first();
             $pemesananBaru = PemesananHeader::where([
                 ['status', 'Ajukan Baru'],
                 ['id_customer', $getMasterCustomer->id]
-            ])->get();
+            ])->whereMonth('created_at', date('m'))->get();
             $pemesananKiri = PemesananHeader::where([
                 ['status', 'Proses'],
                 ['id_customer', $getMasterCustomer->id]
-            ])->get();
-            $pemesanan = PemesananHeader::select('tanggal_pemesanan', DB::RAW('COUNT(id) as id'))->where('id_customer', $getMasterCustomer->id)->groupBy('tanggal_pemesanan')->get();
+            ])->whereMonth('created_at', date('m'))->get();
+            $pemesanan = PemesananHeader::select('tanggal_pemesanan', DB::RAW('COUNT(id) as id'))->where('id_customer', $getMasterCustomer->id)->whereMonth('created_at', date('m'))->groupBy('tanggal_pemesanan')->get();
         }
 
         if($role == 'pengadaan'){
-            $pembelianBaru = PembelianHeader::where('status', 'Ajukan Baru')->get();
-            $pembelianAppr = PembelianHeader::where('status', 'Approve')->get();
-            $pembelian = PembelianHeader::select('tanggal_pembelian', DB::RAW('COUNT(id) as id'))->groupBy('tanggal_pembelian')->get();
+            $pembelianBaru = PembelianHeader::where('status', 'Ajukan Baru')->whereMonth('created_at', date('m'))->get();
+            $pembelianAppr = PembelianHeader::where('status', 'Approve')->whereMonth('created_at', date('m'))->get();
+            $pembelian = PembelianHeader::select('tanggal_pembelian', DB::RAW('COUNT(id) as id'))->whereMonth('created_at', date('m'))->groupBy('tanggal_pembelian')->get();
         }elseif($role == 'principle'){
-            $pemesanan = PemesananHeader::select('tanggal_pemesanan', DB::RAW('COUNT(id) as id'))->groupBy('tanggal_pemesanan')->get();
+            $pemesanan = PemesananHeader::select('tanggal_pemesanan', DB::RAW('COUNT(id) as id'))->whereMonth('created_at', date('m'))->groupBy('tanggal_pemesanan')->get();
             $getMasterPrinciple = MasterPrinciple::where('email', Auth::user()->email)->first();
             $pembelianBaru = PembelianHeader::where([
                 ['status', 'Ajukan Baru'],
                 ['id_principle', $getMasterPrinciple->id]
-            ])->get();
+            ])->whereMonth('created_at', date('m'))
+            ->get();
             $pembelianAppr = PembelianHeader::where([
                 ['status', 'Approve'],
                 ['id_principle', $getMasterPrinciple->id]
-            ])->get();
-            $pembelian = PembelianHeader::select('tanggal_pembelian', DB::RAW('COUNT(id) as id'))->where('id_principle', $getMasterPrinciple->id)->groupBy('tanggal_pembelian')->get();
+            ])->whereMonth('created_at', date('m'))
+            ->get();
+            $pembelian = PembelianHeader::select('tanggal_pembelian', DB::RAW('COUNT(id) as id'))->where('id_principle', $getMasterPrinciple->id)->whereMonth('created_at', date('m'))->groupBy('tanggal_pembelian')->get();
         }
 
         $month = date('M');
