@@ -69,7 +69,7 @@
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     <div class="mb-3">
-                        <label for="jabatan_pic" class="form-label">Jabatan PIC</label>
+                        <label for="jabatan_pic" class="form-label">Konfirmasi Password</label>
                         <input id="password" class="form-control" type="password" name="password_confirmation" required>
                     </div>
                     <button type="submit" class="btn btn-success">Simpan</button>
