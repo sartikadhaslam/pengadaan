@@ -37,6 +37,7 @@ class PenerimaanController extends Controller
      */
     
     public function index(){
+        $role = Auth::user()->role;
         $penerimaanHeader = PenerimaanHeader::select('penerimaan_header.id', 'penerimaan_header.no_pembelian', 'penerimaan_header.tanggal_penerimaan', 'master_principle.id as id_principle', 'master_principle.nama_principle as nama_principle', 'penerimaan_header.status')
                             ->join('master_principle', 'master_principle.id', 'penerimaan_header.id_principle')
                             ->paginate(5);     
@@ -48,7 +49,8 @@ class PenerimaanController extends Controller
         $commandData = [
             'penerimaanHeader'          => $penerimaanHeader,
             'no'                        => $no,
-            'getMasterPrincipleAll'     => $getMasterPrincipleAll
+            'getMasterPrincipleAll'     => $getMasterPrincipleAll,
+            'role'                      => $role
         ];
         return view('transaksi.penerimaan.index', $commandData);
     }

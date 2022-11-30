@@ -51,9 +51,11 @@
                         {{ session('message') }}.
                     </div>
                 @endif
+                @if($role != 'principle')
                 <div class="pb-3">
                     <a href="{{url('/penerimaan/add')}}" class="btn btn-primary text-white" role="button">Tambah</a>
                 </div>
+                @endif
                 <div class="col-md-4 float-right">
                     <input class="form-control" id="myInput" type="text" placeholder="Cari.."><br>
                 </div>
