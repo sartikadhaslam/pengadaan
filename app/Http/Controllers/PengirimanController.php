@@ -52,7 +52,7 @@ class PengirimanController extends Controller
     {
         $pemesananHeader = PemesananHeader::select('pemesanan_header.id', 'pemesanan_header.no_pemesanan', 'pemesanan_header.id_customer', 'master_customer.nama_customer as customer', 'pemesanan_header.status')
                             ->join('master_customer', 'master_customer.id', 'pemesanan_header.id_customer')
-                            ->where('pemesanan_header.status', 'Approve')
+                            ->where('pemesanan_header.status', 'Proses')
                             ->get();
         $commandData = [
             'pemesananHeader'       => $pemesananHeader,
