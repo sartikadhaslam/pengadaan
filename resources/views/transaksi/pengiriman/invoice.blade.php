@@ -58,12 +58,12 @@
         </tr>
         @endforeach
         <tr>
-            <td style="border: 1px solid black;text-align:left;text-align:right;" colspan="4">Total DDP at site <br> Vat. 10 % <br>&nbsp;</td>
-            <td style="border: 1px solid black;text-align:left;padding-left:20px;">Rp {{ number_format($total) }} <br> Rp {{ number_format(10/100*$total) }} <br>&nbsp;</td>
+            <td style="border: 1px solid black;text-align:left;text-align:right;" colspan="4">Total DDP at site <br> Vat. 11 % <br>&nbsp;</td>
+            <td style="border: 1px solid black;text-align:left;padding-left:20px;">Rp {{ number_format($total) }} <br> Rp {{ number_format(11/100*$total) }} <br>&nbsp;</td>
         </tr>
         <tr>
             <td style="border: 1px solid black;text-align:left;text-align:right;" colspan="4">Total price to {{ $pengirimanHeader->nama_customer }} after Vat.</td>
-            <td style="border: 1px solid black;text-align:left;padding-left:20px;">Rp {{ number_format($total+(10/100*$total)) }}</td>
+            <td style="border: 1px solid black;text-align:left;padding-left:20px;">Rp {{ number_format($total+(11/100*$total)) }}</td>
         </tr>
     </table>
     <br>
